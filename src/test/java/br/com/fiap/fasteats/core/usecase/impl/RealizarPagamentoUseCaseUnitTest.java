@@ -15,10 +15,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.MERCADO_PAGO;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_EM_PROCESSAMENTO;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_PAGO;
+import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_CANCELADO;
+import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_PAGO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,10 +60,12 @@ class RealizarPagamentoUseCaseUnitTest {
         Pagamento pagamento = getPagamento(PAGAMENTO_ID, PEDIDO_ID, FORMA_PAGAMENTO_ID, false);
         FormaPagamento formaPagamento = getFormaPagamento(FORMA_PAGAMENTO_ID, PIX, false);
         Pagamento pagamentoRealizado = getPagamento(PAGAMENTO_ID, PEDIDO_ID, FORMA_PAGAMENTO_ID, false);
+        Pedido pedido = getPedido(PEDIDO_ID, STATUS_PEDIDO_PAGO);
         pagamentoRealizado.setStatusPagamento(getStatusPagamento(STATUS_PAGAMENTO_ID, STATUS_PAGO));
 
         when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamento);
         when(formaPagamentoInputPort.consultar(pagamento.getFormaPagamento().getId())).thenReturn(formaPagamento);
+        when(alterarPedidoStatusOutputPort.pago(pagamento.getPedidoId())).thenReturn(Optional.of(pedido));
         when(alterarPagamentoStatusInputPort.pago(PAGAMENTO_ID)).thenReturn(pagamentoRealizado);
 
         // Act
@@ -92,6 +98,26 @@ class RealizarPagamentoUseCaseUnitTest {
         verify(formaPagamentoInputPort).consultar(pagamento.getFormaPagamento().getId());
     }
 
+    @Test
+    @DisplayName("Deve apresentar erro ao tentar realizar um pagamento com pedido com status diferente de PAGO")
+    void realizarPagamentoPedidoNaoPago() {
+        // Arrange
+        Pagamento pagamento = getPagamento(PAGAMENTO_ID, PEDIDO_ID, FORMA_PAGAMENTO_ID, false);
+        FormaPagamento formaPagamento = getFormaPagamento(FORMA_PAGAMENTO_ID, PIX, false);
+        Pedido pedido = getPedido(PEDIDO_ID, STATUS_PEDIDO_CANCELADO);
+
+        when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamento);
+        when(formaPagamentoInputPort.consultar(pagamento.getFormaPagamento().getId())).thenReturn(formaPagamento);
+        when(alterarPedidoStatusOutputPort.pago(pagamento.getPedidoId())).thenReturn(Optional.of(pedido));
+
+        // Act & Assert
+        assertThrows(RegraNegocioException.class, () -> realizarPagamentoUseCase.realizarPagamento(PEDIDO_ID));
+        verify(realizarPagamentoValidator).validarStatusPedido(pagamento.getPedidoId());
+        verify(pagamentoInputPort).consultarPorIdPedido(pagamento.getPedidoId());
+        verify(formaPagamentoInputPort).consultar(pagamento.getFormaPagamento().getId());
+        verify(alterarPedidoStatusOutputPort).pago(pagamento.getPedidoId());
+    }
+
     private Pagamento getPagamento(Long pagamentoId, Long pedidoId, Long formaPagamentoId, boolean externo) {
         Pagamento pagamento = new Pagamento();
         pagamento.setId(pagamentoId);
@@ -117,5 +143,12 @@ class RealizarPagamentoUseCaseUnitTest {
         statusPagamento.setId(statusPagamentoId);
         statusPagamento.setNome(nomeStatusPagamento);
         return statusPagamento;
+    }
+
+    private Pedido getPedido(Long pedidoId, String statusPedido) {
+        Pedido pedido = new Pedido();
+        pedido.setId(pedidoId);
+        pedido.setStatusPedido(statusPedido);
+        return pedido;
     }
 }
