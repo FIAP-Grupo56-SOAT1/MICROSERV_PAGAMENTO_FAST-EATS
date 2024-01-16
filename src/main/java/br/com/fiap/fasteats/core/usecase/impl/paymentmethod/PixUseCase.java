@@ -1,4 +1,4 @@
-package br.com.fiap.fasteats.core.usecase.impl.metodopagamento;
+package br.com.fiap.fasteats.core.usecase.impl.paymentmethod;
 
 import br.com.fiap.fasteats.core.dataprovider.PedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.PedidoNotFound;
@@ -6,7 +6,7 @@ import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.Pedido;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
-import br.com.fiap.fasteats.core.usecase.metodopagamento.PagamentoPixInputPort;
+import br.com.fiap.fasteats.core.usecase.paymentmethod.PagamentoPixInputPort;
 
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 

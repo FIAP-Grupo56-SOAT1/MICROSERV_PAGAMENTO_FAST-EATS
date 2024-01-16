@@ -1,4 +1,4 @@
-package br.com.fiap.fasteats.core.usecase.metodopagamento;
+package br.com.fiap.fasteats.core.usecase.paymentmethod;
 
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 
