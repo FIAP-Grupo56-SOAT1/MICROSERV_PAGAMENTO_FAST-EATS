@@ -1,0 +1,28 @@
+name: docker-deploy
+
+on:
+  workflow_call:
+
+jobs:
+  docker-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: | 
+            fiap56soat1/fasteats-api:${{ github.run_number }}
+            fiap56soat1/fasteats-api:latest

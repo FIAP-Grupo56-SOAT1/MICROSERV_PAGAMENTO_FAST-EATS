@@ -1,0 +1,12 @@
+name: main-publish
+
+on:
+  pull_request:
+    branches: ['main']
+    types: ['closed']
+
+jobs:
+  docker:
+    if: github.event.pull_request.merged == true
+    uses: ./.github/workflows/docker-deploy.yml
+    secrets: inherit

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysqldb-pagamento-fasteats:
+    container_name: mysqldb-pagamento-fasteats
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: fasteatspagamentodb
+      MYSQL_USER: fiap56
+      MYSQL_PASSWORD: fiapsoat1grupo56
+      MYSQL_ROOT_PASSWORD: fiapsoat1grupo56
+    networks:
+      fasteats-pagamento-net:
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+
+networks:
+  fasteats-pagamento-net:

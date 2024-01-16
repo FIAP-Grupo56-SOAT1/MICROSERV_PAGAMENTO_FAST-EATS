@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/cozinha-pedido/([0-9]+)/receber-pedido"
+  },
+  "response": {
+    "status": 200,
+    "transformers": ["response-template"]
+  }
+}

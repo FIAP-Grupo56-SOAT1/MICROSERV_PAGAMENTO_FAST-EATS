@@ -1,0 +1,32 @@
+{
+   "request": {
+     "method": "PUT",
+     "urlPathPattern": "/pedidos/([0-9]+)/status/([0-9]+)"
+   },
+   "response": {
+     "status": 200,
+     "transformers": ["response-template"],
+     "jsonBody": {
+       "id": 1,
+       "cliente": {
+         "cpf": "83516930063",
+         "ativo": true
+       },
+       "statusPedido": "CANCELADO",
+       "dataHoraCriado": "2023-09-03T11:51:25",
+       "valor": 20,
+       "produtos": [
+         {
+           "idProduto": 1,
+           "nomeProduto": "X-SALADA",
+           "descricaoProduto": "X-salada com um hamburger 180g",
+           "quantidade": 1,
+           "valor": 20
+         }
+       ]
+     },
+     "headers": {
+       "Content-Type": "application/json"
+     }
+   }
+ }

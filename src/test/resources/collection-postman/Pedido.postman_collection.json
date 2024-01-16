@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "b32e6e8b-8e69-4494-9672-2fa499fd3c7e",
+		"name": "Pedido",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1161866",
+		"_collection_link": "https://speeding-crater-409220.postman.co/workspace/FIAP~68db82dc-0df4-4724-accb-128e2726ff3f/collection/1161866-b32e6e8b-8e69-4494-9672-2fa499fd3c7e?action=share&creator=1161866&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "pedidos",
+			"item": [
+				{
+					"name": "criar pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cliente\": {\r\n        \"cpf\": \"29234725897\"\r\n    },\r\n    \"identificaCliente\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pedidos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar pedido",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pedidos/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/pedidos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pesquisar por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/pedidos/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/pedidos/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "produto pedido",
+			"item": [
+				{
+					"name": "adicionar produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idProduto\": 1,\r\n    \"quantidade\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pedidos/9/produtos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"9",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar produto",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantidade\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pedidos/2/produtos/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"2",
+								"produtos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/pedidos/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pedidos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "status pedidos",
+			"item": [
+				{
+					"name": "alterar-status-pedido",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/executar-pedido/retirar/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"executar-pedido",
+								"retirar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar status pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/status-pedidos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"status-pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

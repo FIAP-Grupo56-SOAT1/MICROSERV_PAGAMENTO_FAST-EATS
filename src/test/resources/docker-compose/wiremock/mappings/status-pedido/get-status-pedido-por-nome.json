@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/status-pedidos/consultar-por-nome/([a-zA-Z]+)"
+  },
+  "response": {
+    "status": 200,
+    "transformers": ["response-template"],
+    "jsonBody": {
+      "id": 8,
+      "nome": "CANCELADO",
+      "ativo": true
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -1,0 +1,232 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dados
+data:
+  DB_HOST: "mysql"
+  DB_DATABASE: "testemed"
+  DB_PASSWORD: "12345"
+  MYSQL_ENV_DB_USER: "root"
+  MYSQL_DATABASE: "fasteatsdb"
+  spring.datasource.url: "mysql"
+  spring.flyway.url: "mysql"
+  spring.flyway.baseline-on-migrate: "true"
+  spring.flyway.locations: "classpath:db/migration"
+  spring.jpa.properties.hibernate.dialect: "org.hibernate.dialect.MySQLDialect"
+  spring.servico.enderecoapimercadopago: "https://localhost:3306/fasteatsdb"
+  springdoc.swagger-ui.operationsSorter: "method"
+  springdoc.swagger-ui.tagsSorter: "alpha"
+
+  DB_SERVER: "mysql"
+  DB_NAME: "fasteatsdb"
+
+
+  spring.datasource.password: "fiap56"
+  spring.datasource.username: "fiap56"
+  spring.flyway.user: "fiap56"
+  spring.flyway.password: "fiap56"
+  MYSQL_USER: "fiap56"
+  MYSQL_PASSWORD: "fiap56"
+  MYSQL_ROOT_PASSWORD: "fiap56"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-api
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    #service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  type: LoadBalancer
+  selector:
+    app: fasteats
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+
+---
+
+apiVersion: v1
+stringData:
+  spring.datasource.password: "fiap56"
+  spring.datasource.username: "fiap56"
+  spring.flyway.user: "fiap56"
+  spring.flyway.password: "fiap56"
+  MYSQL_USER: "fiap56"
+  MYSQL_PASSWORD: "fiap56"
+  MYSQL_ROOT_PASSWORD: "fiap56"
+kind: Secret
+metadata:
+  name: senhas
+type: Opaque
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volume-mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: csi-hostpath-sc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30001
+      name: mysql
+  selector:
+    app: mysql
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: "mysql"
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mysql
+          image: mysql:8
+          ports:
+            - containerPort: 3306
+              name: mysql
+          envFrom:
+            - configMapRef:
+                name: dados
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: MYSQL_ROOT_PASSWORD
+          volumeMounts:
+            - name: mysql-ps
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-ps
+          persistentVolumeClaim:
+            claimName: volume-mysql
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fasteats
+  labels:
+    app: fasteats
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fasteats
+  template:
+    metadata:
+      labels:
+        app: fasteats
+    spec:
+      containers:
+        - name: fasteats-api
+          image: fiap56soat1/fasteats-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: spring.datasource.username
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: spring.datasource.username
+            - name: spring.datasource.password
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: spring.datasource.password
+            - name: spring.flyway.user
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: spring.flyway.user
+            - name: spring.flyway.password
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: spring.flyway.password
+            - name: spring.flyway.baseline-on-migrate
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: spring.flyway.baseline-on-migrate
+            - name: spring.flyway.locations
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: spring.flyway.locations
+            - name: spring.jpa.properties.hibernate.dialect
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: spring.jpa.properties.hibernate.dialect
+            - name: spring.servico.enderecoapimercadopago
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: spring.servico.enderecoapimercadopago
+            - name: springdoc.swagger-ui.operationsSorter
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: springdoc.swagger-ui.operationsSorter
+            - name: springdoc.swagger-ui.tagsSorter
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: springdoc.swagger-ui.tagsSorter
+            - name: DB_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: DB_SERVER
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: DB_NAME
