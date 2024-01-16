@@ -5,10 +5,10 @@ import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.MetodoPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
-import br.com.fiap.fasteats.core.usecase.impl.metodopagamento.MercadoPagoUseCase;
-import br.com.fiap.fasteats.core.usecase.impl.metodopagamento.PixUseCase;
-import br.com.fiap.fasteats.core.usecase.metodopagamento.PagamentoMercadoPagoInputPort;
-import br.com.fiap.fasteats.core.usecase.metodopagamento.PagamentoPixInputPort;
+import br.com.fiap.fasteats.core.usecase.impl.paymentmethod.MercadoPagoUseCase;
+import br.com.fiap.fasteats.core.usecase.impl.paymentmethod.PixUseCase;
+import br.com.fiap.fasteats.core.usecase.paymentmethod.PagamentoMercadoPagoInputPort;
+import br.com.fiap.fasteats.core.usecase.paymentmethod.PagamentoPixInputPort;
 import br.com.fiap.fasteats.dataprovider.client.MercadoPagoIntegration;
 
 public class MetodoPagamentoUseCase implements MetodoPagamentoInputPort {
