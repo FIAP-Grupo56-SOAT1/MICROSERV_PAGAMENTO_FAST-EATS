@@ -1,9 +1,10 @@
-package br.com.fiap.fasteats.core.usecase.impl;
+package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.usecase.GerarPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
+import br.com.fiap.fasteats.core.usecase.impl.AlterarFormaPagamentoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
