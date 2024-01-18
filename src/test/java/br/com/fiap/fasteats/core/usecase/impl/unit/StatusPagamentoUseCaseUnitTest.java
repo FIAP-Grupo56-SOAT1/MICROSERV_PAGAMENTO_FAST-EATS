@@ -1,8 +1,9 @@
-package br.com.fiap.fasteats.core.usecase.impl;
+package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.StatusPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.StatusPagametoNotFound;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
+import br.com.fiap.fasteats.core.usecase.impl.StatusPagamentoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

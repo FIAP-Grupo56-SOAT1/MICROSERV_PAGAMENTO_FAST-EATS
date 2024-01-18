@@ -1,10 +1,11 @@
-package br.com.fiap.fasteats.core.usecase.impl;
+package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.PagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.StatusPagamentoInputPort;
+import br.com.fiap.fasteats.core.usecase.impl.AlterarPagamentoStatusUseCase;
 import br.com.fiap.fasteats.core.validator.AlterarPagamentoStatusValidator;
 
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;

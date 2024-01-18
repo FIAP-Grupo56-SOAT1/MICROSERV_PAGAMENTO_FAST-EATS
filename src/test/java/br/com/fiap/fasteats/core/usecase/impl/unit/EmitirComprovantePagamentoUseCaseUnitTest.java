@@ -1,10 +1,11 @@
-package br.com.fiap.fasteats.core.usecase.impl;
+package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.CozinhaPedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
+import br.com.fiap.fasteats.core.usecase.impl.EmitirComprovantePagamentoUseCase;
 import br.com.fiap.fasteats.core.validator.EmitirComprovantePagamentoValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package br.com.fiap.fasteats.core.usecase.impl;
+package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
@@ -7,6 +7,7 @@ import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.EmitirComprovantePagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
+import br.com.fiap.fasteats.core.usecase.impl.RealizarPagamentoUseCase;
 import br.com.fiap.fasteats.core.validator.RealizarPagamentoValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

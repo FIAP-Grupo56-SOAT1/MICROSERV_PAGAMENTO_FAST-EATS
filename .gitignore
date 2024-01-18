@@ -26,3 +26,6 @@ replay_pid*
 /target/
 /.vscode/
 .project
+
+#coverage test files
+/allure-results/
