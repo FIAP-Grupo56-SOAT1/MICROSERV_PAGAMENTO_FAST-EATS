@@ -37,6 +37,8 @@ public class MercadoPagoIntegrationImpl implements MercadoPagoIntegration {
     @Value("${pagamento.mercado.pago.tipo.pagamento}")
     private String tipoPagamentoMercadoPago;
 
+    private final PaymentClient client;
+
     @Override
     public PagamentoExterno enviarSolicitacaoPagamento(Double valorPedido) {
         return criarPagamentoExterno(valorPedido);
@@ -54,9 +56,6 @@ public class MercadoPagoIntegrationImpl implements MercadoPagoIntegration {
 
     private PagamentoExterno consultarPagamentoExterno(PagamentoExterno pagamentoExterno) {
         MercadoPagoConfig.setAccessToken(accessToken);
-
-        PaymentClient client = new PaymentClient();
-
         try {
             Payment payment = client.get(pagamentoExterno.getId());
             String paymentString = payment.toString();
@@ -74,9 +73,6 @@ public class MercadoPagoIntegrationImpl implements MercadoPagoIntegration {
 
     private PagamentoExterno criarPagamentoExterno(Double valorPedido) {
         MercadoPagoConfig.setAccessToken(accessToken);
-
-        PaymentClient client = new PaymentClient();
-
         PaymentCreateRequest paymentCreateRequest =
                 PaymentCreateRequest.builder()
                         .transactionAmount(BigDecimal.valueOf(valorPedido))
@@ -99,8 +95,6 @@ public class MercadoPagoIntegrationImpl implements MercadoPagoIntegration {
 
     private PagamentoExterno cancelarPagamentoExterno(Long idPagamentoExterno) {
         MercadoPagoConfig.setAccessToken(accessToken);
-
-        PaymentClient client = new PaymentClient();
         try {
             Payment payment = client.cancel(idPagamentoExterno);
             String paymentString = payment.toString();

@@ -7,6 +7,8 @@ import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.StatusPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.AlterarPagamentoStatusUseCase;
 import br.com.fiap.fasteats.core.validator.AlterarPagamentoStatusValidator;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
@@ -36,9 +38,16 @@ public class AlterarPagamentoStatusSteps {
     private final Long PEDIDO_ID = 1L;
     private Pagamento pagamento;
     private Pagamento resultado;
+    AutoCloseable openMocks;
 
-    public AlterarPagamentoStatusSteps() {
-        MockitoAnnotations.openMocks(this);
+    @Before
+    public void setUp() {
+        openMocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        openMocks.close();
     }
 
     @Dado("que o pagamento exista no sistema")

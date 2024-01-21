@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class PagamentoWebhookRequest {
-
     @JsonProperty("id")
     private String id;
     @JsonProperty("live_mode")

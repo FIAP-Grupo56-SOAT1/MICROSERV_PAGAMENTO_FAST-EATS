@@ -23,10 +23,7 @@ public class PagamentoValidatorImpl implements PagamentoValidator {
         Pagamento pagamento = pagamentoOutputPort.consultar(pagamentoId).orElseThrow(() -> new RegraNegocioException("Pagamento não encontrado"));
         String nomeStatusPagamento = statusPagamentoInputPort.consultar(pagamento.getStatusPagamento().getId()).getNome();
 
-        if (nomeStatusPagamento.equals(STATUS_PAGO))
-            throw new RegraNegocioException("O Pagamento não pode ser alterado, pois está com status PAGO");
-
-        if (nomeStatusPagamento.equals(STATUS_CANCELADO))
-            throw new RegraNegocioException("O Pagamento não pode ser alterado, pois está com status CANCELADO");
+        if (nomeStatusPagamento.equals(STATUS_PAGO) || nomeStatusPagamento.equals(STATUS_CANCELADO))
+            throw new RegraNegocioException("O Pagamento não pode ser alterado, pois está com status " + nomeStatusPagamento);
     }
 }

@@ -1,6 +1,7 @@
 package br.com.fiap.fasteats.dataprovider;
 
 import br.com.fiap.fasteats.dataprovider.repository.FormaPagamentoRepository;
+import br.com.fiap.fasteats.dataprovider.repository.entity.FormaPagamentoEntity;
 import br.com.fiap.fasteats.dataprovider.repository.mapper.FormaPagamentoEntityMapper;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.dataprovider.FormaPagamentoOutputPort;
@@ -18,9 +19,9 @@ public class FormaPagamentoAdapter implements FormaPagamentoOutputPort {
 
     @Override
     public FormaPagamento criar(FormaPagamento formaPagamento) {
-        var formaPagamentoEntity = formaPagamentoEntityMapper.toFormaPagamentoEntity(formaPagamento);
-        var formaPagamentoEntitySalvo = formaPagamentoRepository.save(formaPagamentoEntity);
-        return formaPagamentoEntityMapper.toFormaPagamento(formaPagamentoEntitySalvo);
+        FormaPagamentoEntity formaPagamentoEntity = formaPagamentoEntityMapper.toFormaPagamentoEntity(formaPagamento);
+        FormaPagamentoEntity formaPagamentoEntitySalva = formaPagamentoRepository.save(formaPagamentoEntity);
+        return formaPagamentoEntityMapper.toFormaPagamento(formaPagamentoEntitySalva);
     }
 
     @Override
@@ -30,8 +31,8 @@ public class FormaPagamentoAdapter implements FormaPagamentoOutputPort {
 
     @Override
     public FormaPagamento atualizar(FormaPagamento formaPagamento) {
-        var formaPagamentoEntity = formaPagamentoEntityMapper.toFormaPagamentoEntity(formaPagamento);
-        var formaPagamentoAtualizada = formaPagamentoRepository.save(formaPagamentoEntity);
+        FormaPagamentoEntity formaPagamentoEntity = formaPagamentoEntityMapper.toFormaPagamentoEntity(formaPagamento);
+        FormaPagamentoEntity formaPagamentoAtualizada = formaPagamentoRepository.save(formaPagamentoEntity);
         return formaPagamentoEntityMapper.toFormaPagamento(formaPagamentoAtualizada);
     }
 
@@ -42,8 +43,8 @@ public class FormaPagamentoAdapter implements FormaPagamentoOutputPort {
 
     @Override
     public Optional<List<FormaPagamento>> listar() {
-        var formaPagamentoEntities = formaPagamentoRepository.findAll();
-        var formasPagamento = formaPagamentoEntities.stream()
+        List<FormaPagamentoEntity> formaPagamentoEntities = formaPagamentoRepository.findAll();
+        List<FormaPagamento> formasPagamento = formaPagamentoEntities.stream()
                 .map(formaPagamentoEntityMapper::toFormaPagamento)
                 .toList();
         return Optional.of(formasPagamento);
@@ -51,8 +52,8 @@ public class FormaPagamentoAdapter implements FormaPagamentoOutputPort {
 
     @Override
     public Optional<FormaPagamento> consultarPorNome(String nome) {
-        var formaPagamentoEntity = formaPagamentoRepository.findByNome(nome.toUpperCase());
-        var formaPagamento = formaPagamentoEntity.stream()
+        List<FormaPagamentoEntity> formaPagamentoEntity = formaPagamentoRepository.findByNome(nome.toUpperCase());
+        List<FormaPagamento> formaPagamento = formaPagamentoEntity.stream()
                 .map(formaPagamentoEntityMapper::toFormaPagamento)
                 .toList();
         return formaPagamento.stream().findFirst();

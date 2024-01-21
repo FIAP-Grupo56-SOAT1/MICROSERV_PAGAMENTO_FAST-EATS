@@ -11,12 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExceptionResponse {
-
     private LocalDateTime date;
-
     private String message;
-
     private List<String> details;
-
 }
 
