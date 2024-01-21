@@ -1,7 +1,7 @@
 package br.com.fiap.fasteats.dataprovider.client.service;
 
-import br.com.fiap.fasteats.core.domain.exception.StatusPedidoNotFound;
 import br.com.fiap.fasteats.dataprovider.client.StatusPedidoIntegration;
+import br.com.fiap.fasteats.dataprovider.client.exception.MicroservicoPedidoException;
 import br.com.fiap.fasteats.dataprovider.client.response.StatusPedidoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,24 +19,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StatusPedidoIntegrationImpl implements StatusPedidoIntegration {
     private final Logger logger = LoggerFactory.getLogger(StatusPedidoIntegrationImpl.class);
-
     private final RestTemplate restTemplate;
-
     @Value("${URL_PEDIDO_SERVICE}")
     private String URL_BASE;
-
-    private final String PATH = "/status-pedidos";
+    private final String URI = "/status-pedidos";
 
     @Override
     public Optional<StatusPedidoResponse> consultar(Long id) {
         try {
+            String url = String.format("%s%s/%d", URL_BASE, URI, id);
             StatusPedidoResponse statusPedidoResponse =
-                    restTemplate.getForObject(URL_BASE + PATH + "/{id}", StatusPedidoResponse.class, id);
-
+                    restTemplate.getForObject(url, StatusPedidoResponse.class, id);
             return Optional.ofNullable(statusPedidoResponse);
         } catch (Exception ex) {
-            logger.error("Erro retorno microservice pedido ", ex.getCause());
-            throw new StatusPedidoNotFound("Erro retorno microservice pedido " + ex.getMessage());
+            String resposta = String.format("Erro na comunicação com o microserviço Pedido: %s", ex.getMessage());
+            logger.error(resposta);
+            throw new MicroservicoPedidoException(resposta);
         }
     }
 
@@ -44,41 +42,38 @@ public class StatusPedidoIntegrationImpl implements StatusPedidoIntegration {
     public Optional<List<StatusPedidoResponse>> listar() {
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    URL_BASE + PATH + "/",
+                    URL_BASE + URI + "/",
                     HttpMethod.GET,
                     null,
                     String.class);
-
             String jsonResponse = responseEntity.getBody();
 
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
-                List<StatusPedidoResponse> statusPedidoResponseList = restTemplate.getForObject(
-                        URL_BASE + PATH + "/",
-                        List.class);  // Aqui você obtém diretamente uma lista de objetos
-
-                return Optional.of(statusPedidoResponseList);
+                String url = String.format("%s%s/", URL_BASE, URI);
+                List<StatusPedidoResponse> statusPedidoResponseList = restTemplate.getForObject(url, List.class);
+                return Optional.ofNullable(statusPedidoResponseList);
             } else {
-                // Log para identificar se a resposta está vazia
                 logger.warn("A resposta do microservice de pedido está vazia ou nula.");
                 return Optional.empty();
             }
         } catch (Exception ex) {
-            // Log detalhado para investigar o problema
-            logger.error("Erro ao obter dados do microservice de pedido ", ex);
-            throw new StatusPedidoNotFound("Erro ao obter dados do microservice de pedido: " + ex.getMessage());
+            String resposta = String.format("Erro na comunicação com o microserviço Pedido: %s", ex.getMessage());
+            logger.error(resposta);
+            throw new MicroservicoPedidoException(resposta);
         }
     }
 
     @Override
     public Optional<StatusPedidoResponse> consultarPorNome(String nome) {
         try {
+            String url = String.format("%s%s/consultar-por-nome/%s", URL_BASE, URI, nome);
             StatusPedidoResponse statusPedidoResponse =
-                    restTemplate.getForObject(URL_BASE + PATH + "/consultar-por-nome/{nome}", StatusPedidoResponse.class, nome);
-
+                    restTemplate.getForObject(url, StatusPedidoResponse.class, nome);
             return Optional.ofNullable(statusPedidoResponse);
         } catch (Exception ex) {
-            logger.error("Erro retorno microservice pedido ", ex.getCause());
-            throw new StatusPedidoNotFound("Erro retorno microservice pedido " + ex.getMessage());
+            String resposta = String.format("Erro na comunicação com o microserviço Pedido: %s", ex.getMessage());
+            logger.error(resposta);
+            throw new MicroservicoPedidoException(resposta);
         }
     }
 }

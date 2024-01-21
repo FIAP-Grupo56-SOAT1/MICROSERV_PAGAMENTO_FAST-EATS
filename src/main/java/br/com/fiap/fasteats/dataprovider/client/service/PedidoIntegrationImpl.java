@@ -1,7 +1,7 @@
 package br.com.fiap.fasteats.dataprovider.client.service;
 
-import br.com.fiap.fasteats.core.domain.exception.PedidoNotFound;
 import br.com.fiap.fasteats.dataprovider.client.PedidoIntegration;
+import br.com.fiap.fasteats.dataprovider.client.exception.MicroservicoPedidoException;
 import br.com.fiap.fasteats.dataprovider.client.response.PedidoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,34 +16,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PedidoIntegrationImpl implements PedidoIntegration {
     private final Logger logger = LoggerFactory.getLogger(PedidoIntegrationImpl.class);
-
     private final RestTemplate restTemplate;
-
     @Value("${URL_PEDIDO_SERVICE}")
     private String URL_BASE;
-
     private final String URI = "/pedidos";
 
     @Override
     public Optional<PedidoResponse> consultar(Long id) {
         try {
-            PedidoResponse pedidoResponse =
-                    restTemplate.getForObject(URL_BASE + URI + "/{id}", PedidoResponse.class, id);
-
+            String url = String.format("%s%s/%d", URL_BASE, URI, id);
+            PedidoResponse pedidoResponse = restTemplate.getForObject(url, PedidoResponse.class, id);
             return Optional.ofNullable(pedidoResponse);
         } catch (Exception ex) {
-            logger.error("Erro retorno microservice pedido ", ex.getCause());
-            throw new PedidoNotFound("Erro retorno microservice pedido " + ex.getMessage());
+            String resposta = String.format("Erro na comunicação com o microserviço Pedido: %s", ex.getMessage());
+            logger.error(resposta);
+            throw new MicroservicoPedidoException(resposta);
         }
     }
 
     @Override
     public void atualizarStatus(Long id, Long idStatus) {
         try {
-            restTemplate.put(URL_BASE + URI + "/{id}/status/{idStatus}", null, id, idStatus);
+            String url = String.format("%s%s/%d/status/%d", URL_BASE, URI, id, idStatus);
+            restTemplate.put(url, null, id, idStatus);
         } catch (Exception ex) {
-            logger.error("Erro atualizar status microservice pedido ", ex.getCause());
-            throw new PedidoNotFound("Erro atualizar status microservice pedido " + ex.getMessage());
+            String resposta = String.format("Erro na comunicação com o microserviço Pedido: %s", ex.getMessage());
+            logger.error(resposta);
+            throw new MicroservicoPedidoException(resposta);
         }
     }
 }

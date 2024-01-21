@@ -11,12 +11,8 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClienteResponse {
     private String cpf;
-
     private String primeiroNome;
-
     private String ultimoNome;
-
     private String email;
-
     private Boolean ativo;
 }

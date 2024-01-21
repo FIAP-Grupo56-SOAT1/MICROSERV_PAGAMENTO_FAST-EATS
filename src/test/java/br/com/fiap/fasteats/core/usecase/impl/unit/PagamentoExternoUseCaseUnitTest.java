@@ -43,8 +43,6 @@ class PagamentoExternoUseCaseUnitTest {
     private final Long FORMA_PAGAMENTO_ID = 1L;
     private final Long STATUS_PAGAMENTO_ID = 1L;
 
-
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -162,7 +160,6 @@ class PagamentoExternoUseCaseUnitTest {
         // Assert
         verify(pagamentoExternoOutputPort).cancelarPagamento(PAGAMENTO_EXTERNO_ID);
     }
-
 
     private Pagamento getPagamento(Long pagamentoId, Long pedidoId, Long formaPagamentoId, Long pagamentoExternoId, boolean externo) {
         Pagamento pagamento = new Pagamento();

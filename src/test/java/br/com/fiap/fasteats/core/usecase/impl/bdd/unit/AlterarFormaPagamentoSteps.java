@@ -5,6 +5,8 @@ import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.usecase.GerarPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.AlterarFormaPagamentoUseCase;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
@@ -32,10 +34,19 @@ public class AlterarFormaPagamentoSteps {
     private Long formaPagamentoId;
     private Long pedidoId;
     private Pagamento pagamentoAtualizado;
+    AutoCloseable openMocks;
+    @Before
+    public void setUp() {
+        openMocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        openMocks.close();
+    }
 
     @Dado("que o pagamento exista no sistema e não esteja pago")
     public void queOPagamentoExistaNoSistemaENaoEstejaPago() {
-        MockitoAnnotations.openMocks(this);
         boolean pagamentoExterno = true;
         pagamentoAnterior = getPagamento(PAGAMENTO_ID, PEDIDO_ID, pagamentoExterno);
     }

@@ -14,15 +14,15 @@ public class StatusMercadoPagoConstants {
      *
      * @javadoc
      */
-    public static final String STATUS_PENDING = "pending";
-    public static final String STATUS_APPROVED = "approved";
-    public static final String STATUS_AUTHORIZED = "authorized";
-    public static final String STATUS_IN_PROCESS = "in_process";
-    public static final String STATUS_IN_MEDIATION = "in_mediation";
-    public static final String STATUS_REJECTED = "rejected";
-    public static final String STATUS_CANCELLED = "cancelled";
-    public static final String STATUS_REFUNDED = "refunded";
-    public static final String STATUS_CHARGED_BACK = "charged_back";
+    public static final String STATUS_PENDENTE = "pending";
+    public static final String STATUS_APROVADO = "approved";
+    public static final String STATUS_AUTORIZADO = "authorized";
+    public static final String STATUS_EM_PROCESSO = "in_process";
+    public static final String STATUS_EM_MEDIACAO = "in_mediation";
+    public static final String STATUS_REJEITADO = "rejected";
+    public static final String STATUS_CANCELADO = "cancelled";
+    public static final String STATUS_DEVOLVIDO = "refunded";
+    public static final String STATUS_ESTORNADO = "charged_back";
 
     private StatusMercadoPagoConstants() {
     }

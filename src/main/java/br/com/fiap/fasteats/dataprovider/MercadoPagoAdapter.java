@@ -34,27 +34,28 @@ public class MercadoPagoAdapter implements PagamentoExternoOutputPort {
     public Pagamento recuperarPagamentoDePagamentoExterno(PagamentoExterno pagamentoExternoRequisicao) {
         PagamentoExterno pagamentoExterno = consultar(pagamentoExternoRequisicao);
         Pagamento pagamento = pagamentoInputPort.consultarPorIdPagamentoExterno(pagamentoExterno.getId());
-        pagamento.setStatusPagamento(conveterStatusPagamento(pagamentoExterno));
+        pagamento.setStatusPagamento(conveterStatusPagamento(pagamentoExterno.getStatus()));
         return pagamento;
     }
 
-    private StatusPagamento conveterStatusPagamento(PagamentoExterno pagamentoExterno) {
-        switch (pagamentoExterno.getStatus()) {
-            case StatusMercadoPagoConstants.STATUS_APPROVED,
-                    StatusMercadoPagoConstants.STATUS_AUTHORIZED -> {
+    @Override
+    public StatusPagamento conveterStatusPagamento(String statusPagamentoExterno) {
+        switch (statusPagamentoExterno) {
+            case StatusMercadoPagoConstants.STATUS_APROVADO,
+                 StatusMercadoPagoConstants.STATUS_AUTORIZADO -> {
                 return statusPagamentoInputPort.consultarPorNome(STATUS_PAGO);
             }
-            case StatusMercadoPagoConstants.STATUS_IN_PROCESS,
-                    StatusMercadoPagoConstants.STATUS_IN_MEDIATION,
-                    StatusMercadoPagoConstants.STATUS_PENDING -> {
+            case StatusMercadoPagoConstants.STATUS_EM_PROCESSO,
+                 StatusMercadoPagoConstants.STATUS_EM_MEDIACAO,
+                 StatusMercadoPagoConstants.STATUS_PENDENTE -> {
                 return statusPagamentoInputPort.consultarPorNome(STATUS_EM_PROCESSAMENTO);
             }
-            case StatusMercadoPagoConstants.STATUS_CANCELLED,
-                    StatusMercadoPagoConstants.STATUS_CHARGED_BACK,
-                    StatusMercadoPagoConstants.STATUS_REFUNDED -> {
+            case StatusMercadoPagoConstants.STATUS_CANCELADO,
+                 StatusMercadoPagoConstants.STATUS_ESTORNADO,
+                 StatusMercadoPagoConstants.STATUS_DEVOLVIDO -> {
                 return statusPagamentoInputPort.consultarPorNome(STATUS_CANCELADO);
             }
-            case StatusMercadoPagoConstants.STATUS_REJECTED -> {
+            case StatusMercadoPagoConstants.STATUS_REJEITADO -> {
                 return statusPagamentoInputPort.consultarPorNome(STATUS_RECUSADO);
             }
             default -> {

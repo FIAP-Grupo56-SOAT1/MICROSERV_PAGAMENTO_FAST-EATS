@@ -14,7 +14,7 @@
         "cpf": "83516930063",
         "ativo": true
       },
-      "statusPedido": "AGUARDANDO_PAGAMENTO",
+      "statusPedido": "PAGO",
       "dataHoraCriado": "2023-09-03T11:51:25",
       "valor": 20,
       "produtos": [
