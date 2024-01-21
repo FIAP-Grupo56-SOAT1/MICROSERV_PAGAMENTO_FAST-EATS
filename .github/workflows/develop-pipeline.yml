@@ -45,7 +45,7 @@ jobs:
         run: mvn -B verify -Pintegration-tests
 
   build:
-    needs: [ unit-test, integration-test, code-analysis ]
+    needs: [ unit-test, integration-test ]
     runs-on: ubuntu-latest
 
     steps:
