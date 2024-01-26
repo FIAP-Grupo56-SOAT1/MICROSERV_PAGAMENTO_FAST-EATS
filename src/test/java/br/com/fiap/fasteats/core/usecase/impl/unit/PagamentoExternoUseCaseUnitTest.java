@@ -190,13 +190,6 @@ class PagamentoExternoUseCaseUnitTest {
         return formaPagamento;
     }
 
-    private Pedido getPedido(Long pedidoId, Double valor) {
-        Pedido pedido = new Pedido();
-        pedido.setId(pedidoId);
-        pedido.setValor(valor);
-        return pedido;
-    }
-
     private StatusPagamento getStatusPagamento(Long statusPagamentoId, String nomeStatusPagamento) {
         StatusPagamento statusPagamento = new StatusPagamento();
         statusPagamento.setId(statusPagamentoId);

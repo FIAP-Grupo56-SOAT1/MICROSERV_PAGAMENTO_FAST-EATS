@@ -28,8 +28,8 @@ public class StatusPagamentoSteps {
     private StatusPagamentoOutputPort statusPagamentoOutputPort;
     @InjectMocks
     private StatusPagamentoUseCase statusPagamentoUseCase;
-    private Long statusPagamentoId = 1L;
     AutoCloseable openMocks;
+    private Long statusPagamentoId = 1L;
     private StatusPagamento statusPagamento;
     private List<StatusPagamento> statusPagamentos;
     private String nomeStatusPagamento;
