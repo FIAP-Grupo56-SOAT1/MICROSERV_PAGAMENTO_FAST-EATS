@@ -1,7 +1,5 @@
 package br.com.fiap.fasteats.core.domain.model;
 
-import java.util.Objects;
-
 public class FormaPagamento {
     private Long id;
     private String nome;
@@ -48,18 +46,5 @@ public class FormaPagamento {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FormaPagamento that = (FormaPagamento) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(externo, that.externo) && Objects.equals(ativo, that.ativo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, externo, ativo);
     }
 }
