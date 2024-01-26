@@ -4,7 +4,7 @@
 
 ![Logo](imgs/postech.gif)
 
-## Projeto Microserviço Pagamento API Fast-Eats
+## Projeto Microsserviço Pagamento API Fast-Eats
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/FIAP-Grupo56-SOAT1/MICROSERV_PAGAMENTO_FAST-EATS/main-pipeline.yml?logo=github)
 

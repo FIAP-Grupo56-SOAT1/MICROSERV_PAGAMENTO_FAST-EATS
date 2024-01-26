@@ -125,19 +125,16 @@ class AlterarPedidoStatusAdapterUnitTest {
     }
 
     public StatusPedido toStatusPedido(StatusPedidoResponse statusPedidoResponse) {
-        StatusPedido statusPedido = new StatusPedido();
-        statusPedido.setId( statusPedidoResponse.getId() );
-        statusPedido.setNome( statusPedidoResponse.getNome() );
-        return statusPedido;
+        return new StatusPedido(statusPedidoResponse.getId(), statusPedidoResponse.getNome());
     }
 
     public Pedido toPedido(PedidoResponse pedidoResponse) {
         Pedido pedido = new Pedido();
-        pedido.setId( pedidoResponse.getId() );
-        pedido.setStatusPedido( pedidoResponse.getStatusPedido() );
-        pedido.setValor( pedidoResponse.getValor() );
-        pedido.setQrCode( pedidoResponse.getQrCode() );
-        pedido.setUrlPagamento( pedidoResponse.getUrlPagamento() );
+        pedido.setId(pedidoResponse.getId());
+        pedido.setStatusPedido(pedidoResponse.getStatusPedido());
+        pedido.setValor(pedidoResponse.getValor());
+        pedido.setQrCode(pedidoResponse.getQrCode());
+        pedido.setUrlPagamento(pedidoResponse.getUrlPagamento());
         return pedido;
     }
 }
