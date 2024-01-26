@@ -1,3 +1,4 @@
+APP_PORT="value"
 DB_SERVER="value"
 DB_PORT="value"
 DB_NAME="value"
