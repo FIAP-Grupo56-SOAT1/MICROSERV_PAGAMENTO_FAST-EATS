@@ -7,21 +7,22 @@ import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.StatusPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.AlterarPagamentoStatusUseCase;
 import br.com.fiap.fasteats.core.validator.AlterarPagamentoStatusValidator;
-
-import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
-import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
+import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Teste Unitário - Alterar Status do Pagamento")
 class AlterarPagamentoStatusUseCaseUnitTest {

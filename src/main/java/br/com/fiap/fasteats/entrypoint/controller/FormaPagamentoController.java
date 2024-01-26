@@ -1,11 +1,10 @@
 package br.com.fiap.fasteats.entrypoint.controller;
 
+import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
+import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.entrypoint.controller.mapper.FormaPagamentoMapper;
 import br.com.fiap.fasteats.entrypoint.controller.request.FormaPagamentoRequest;
 import br.com.fiap.fasteats.entrypoint.controller.response.FormaPagamentoResponse;
-import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
-
-import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

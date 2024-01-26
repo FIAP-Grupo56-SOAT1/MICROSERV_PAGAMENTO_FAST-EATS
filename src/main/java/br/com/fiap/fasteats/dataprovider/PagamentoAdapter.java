@@ -1,10 +1,10 @@
 package br.com.fiap.fasteats.dataprovider;
 
+import br.com.fiap.fasteats.core.dataprovider.PagamentoOutputPort;
+import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.dataprovider.repository.PagamentoRepository;
 import br.com.fiap.fasteats.dataprovider.repository.entity.PagamentoEntity;
 import br.com.fiap.fasteats.dataprovider.repository.mapper.PagamentoEntityMapper;
-import br.com.fiap.fasteats.core.domain.model.Pagamento;
-import br.com.fiap.fasteats.core.dataprovider.PagamentoOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -21,7 +21,7 @@ import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_P
 import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_PAGO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Teste Unitário - Status Pedido Integration")
 class StatusPedidoIntegrationImplUnitTest {

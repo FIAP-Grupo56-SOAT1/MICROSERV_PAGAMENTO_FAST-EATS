@@ -19,8 +19,7 @@ import org.mockito.MockitoAnnotations;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.MERCADO_PAGO;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 public class GerarPagamentoSteps {
     @Mock

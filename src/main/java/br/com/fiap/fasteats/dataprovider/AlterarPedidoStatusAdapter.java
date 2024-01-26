@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.*;
+import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_CANCELADO;
+import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_PAGO;
 
 @Component
 @RequiredArgsConstructor

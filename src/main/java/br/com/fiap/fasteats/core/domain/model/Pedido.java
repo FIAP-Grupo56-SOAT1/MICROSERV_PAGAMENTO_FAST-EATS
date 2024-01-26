@@ -1,6 +1,5 @@
 package br.com.fiap.fasteats.core.domain.model;
 
-import java.util.Objects;
 
 public class Pedido {
     private Long id;
@@ -68,18 +67,5 @@ public class Pedido {
 
     public void setUrlPagamento(String urlPagamento) {
         this.urlPagamento = urlPagamento;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pedido pedido = (Pedido) o;
-        return Objects.equals(id, pedido.id) && Objects.equals(statusPedido, pedido.statusPedido) && Objects.equals(valor, pedido.valor) && Objects.equals(idPagamentoExterno, pedido.idPagamentoExterno) && Objects.equals(qrCode, pedido.qrCode) && Objects.equals(urlPagamento, pedido.urlPagamento);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, statusPedido, valor, idPagamentoExterno, qrCode, urlPagamento);
     }
 }

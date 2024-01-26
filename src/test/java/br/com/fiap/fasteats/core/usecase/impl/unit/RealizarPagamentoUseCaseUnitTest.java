@@ -2,7 +2,10 @@ package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
-import br.com.fiap.fasteats.core.domain.model.*;
+import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
+import br.com.fiap.fasteats.core.domain.model.Pagamento;
+import br.com.fiap.fasteats.core.domain.model.Pedido;
+import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.EmitirComprovantePagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
@@ -24,7 +27,8 @@ import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATU
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_PAGO;
 import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_CANCELADO;
 import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_PAGO;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

@@ -1,9 +1,9 @@
 package br.com.fiap.fasteats.core.usecase.impl;
 
+import br.com.fiap.fasteats.core.dataprovider.StatusPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.StatusPagametoNotFound;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.StatusPagamentoInputPort;
-import br.com.fiap.fasteats.core.dataprovider.StatusPagamentoOutputPort;
 
 import java.util.List;
 
