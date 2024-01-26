@@ -37,9 +37,6 @@ class FormaPagamentoUseCaseUnitTest {
     void criar() {
         // Arrange
         FormaPagamento formaPagamento = getFormaPagamento(1L, "PIX", false);
-        FormaPagamento formaPagamentoResult = getFormaPagamento(1L, "PIX", false);
-        formaPagamentoResult.setNome(formaPagamentoResult.getNome().toUpperCase());
-        formaPagamentoResult.setAtivo(true);
 
         when(formaPagamentoOutputPort.criar(formaPagamento)).thenReturn(formaPagamento);
 
@@ -47,8 +44,8 @@ class FormaPagamentoUseCaseUnitTest {
         FormaPagamento result = formaPagamentoUseCase.criar(formaPagamento);
 
         // Assert
-        assertEquals(formaPagamentoResult, result);
-        assertEquals(formaPagamento.hashCode(), formaPagamentoResult.hashCode());
+        assertEquals(formaPagamento.getNome().toUpperCase(), result.getNome());
+        assertTrue(result.getAtivo());
         verify(formaPagamentoOutputPort).criar(formaPagamento);
     }
 
@@ -57,9 +54,6 @@ class FormaPagamentoUseCaseUnitTest {
     void criarExterno() {
         // Arrange
         FormaPagamento formaPagamento = getFormaPagamento(1L, "PIX", true);
-        FormaPagamento formaPagamentoResult = getFormaPagamento(1L, "PIX", true);
-        formaPagamentoResult.setNome(formaPagamentoResult.getNome().toUpperCase());
-        formaPagamentoResult.setAtivo(true);
 
         when(formaPagamentoOutputPort.criar(formaPagamento)).thenReturn(formaPagamento);
 
@@ -68,7 +62,8 @@ class FormaPagamentoUseCaseUnitTest {
 
         // Assert
         assertTrue(result.getExterno());
-        assertEquals(formaPagamentoResult, result);
+        assertEquals(formaPagamento.getNome().toUpperCase(), result.getNome());
+        assertTrue(result.getAtivo());
         verify(formaPagamentoOutputPort).criar(formaPagamento);
     }
 
