@@ -39,18 +39,18 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
     @Override
     public Pagamento atualizarPagamento(PagamentoExterno pagamentoExternoRequisicao) {
         try {
-            Pagamento pagamento = pagamentoInputPort.consultarPorIdPagamentoExterno(pagamentoExternoRequisicao.getId());
+            Long pedidoId = pagamentoInputPort.consultarPorIdPagamentoExterno(pagamentoExternoRequisicao.getId()).getPedidoId();
             Pagamento pagamentoAtualizadoExterno = pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExternoRequisicao);
             String nomeStatusPagamento = pagamentoAtualizadoExterno.getStatusPagamento().getNome();
 
             if (nomeStatusPagamento.equals(STATUS_CANCELADO))
-                cancelarPagamentoValidator.validarCancelarPagamento(pagamento.getPedidoId());
+                cancelarPagamentoValidator.validarCancelarPagamento(pedidoId);
 
             if (nomeStatusPagamento.equals(STATUS_PAGO) || nomeStatusPagamento.equals(STATUS_CANCELADO))
-                atualizarStatusPedido(pagamento.getPedidoId(), nomeStatusPagamento);
+                atualizarStatusPedido(pedidoId, nomeStatusPagamento);
 
-            atualizarStatusPagamento(pagamento.getPedidoId(), nomeStatusPagamento);
-            return emitirComprovantePagamento(pagamento.getPedidoId());
+            atualizarStatusPagamento(pedidoId, nomeStatusPagamento);
+            return emitirComprovantePagamento(pedidoId);
         } catch (Exception e) {
             return new Pagamento();
         }
