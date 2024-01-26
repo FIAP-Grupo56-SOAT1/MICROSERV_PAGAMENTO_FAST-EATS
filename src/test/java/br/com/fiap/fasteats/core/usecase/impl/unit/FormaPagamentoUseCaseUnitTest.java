@@ -48,6 +48,7 @@ class FormaPagamentoUseCaseUnitTest {
 
         // Assert
         assertEquals(formaPagamentoResult, result);
+        assertEquals(formaPagamento.hashCode(), formaPagamentoResult.hashCode());
         verify(formaPagamentoOutputPort).criar(formaPagamento);
     }
 

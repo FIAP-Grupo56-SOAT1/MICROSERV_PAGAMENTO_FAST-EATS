@@ -56,9 +56,13 @@ class AlterarPedidoStatusAdapterUnitTest {
         // Arrange
         StatusPedidoResponse statusPedidoResponse = getStatusPedidoResponse(STATUS_PEDIDO_ID, STATUS_PEDIDO_PAGO);
         PedidoResponse pedidoResponse = getPedidoResponse(PEDIDO_ID, STATUS_PEDIDO_PAGO);
+        StatusPedido statusPedido = new StatusPedido();
+        statusPedido.setId(statusPedidoResponse.getId());
+        statusPedido.setNome(statusPedidoResponse.getNome());
+
 
         when(statusPedidoIntegration.consultarPorNome(STATUS_PEDIDO_PAGO)).thenReturn(Optional.of(statusPedidoResponse));
-        when(statusPedidoMapper.toStatusPedido(statusPedidoResponse)).thenReturn(toStatusPedido(statusPedidoResponse));
+        when(statusPedidoMapper.toStatusPedido(statusPedidoResponse)).thenReturn(statusPedido);
         when(pedidoIntegration.consultar(PEDIDO_ID)).thenReturn(Optional.of(pedidoResponse));
         when(pedidoMapper.toPedido(pedidoResponse)).thenReturn(toPedido(pedidoResponse));
 
