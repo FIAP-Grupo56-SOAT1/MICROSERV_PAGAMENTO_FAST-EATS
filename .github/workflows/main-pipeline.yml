@@ -74,3 +74,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=FIAP-Grupo56-SOAT1_MICROSERV_PAGAMENTO_FAST-EATS -Pcoverage
+      - name: Sonar Cloud coverage report
+        run: mvn sonar:sonar -Pcoverage
