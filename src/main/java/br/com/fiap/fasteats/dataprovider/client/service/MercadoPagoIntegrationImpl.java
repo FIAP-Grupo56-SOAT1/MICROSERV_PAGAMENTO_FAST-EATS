@@ -22,21 +22,15 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class MercadoPagoIntegrationImpl implements MercadoPagoIntegration {
     private final Logger logger = LoggerFactory.getLogger(MercadoPagoIntegrationImpl.class);
-
     private final PagamentoExternoMapper pagamentoExternoMapper;
-
     @Value("${pagamento.mercado.pago.email.empresa}")
     private String emailEmpresa;
-
     @Value("${pagamento.mercado.pago.credencial}")
     private String accessToken;
-
     @Value("${pagamento.mercado.pago.userid}")
     private String userIdAplicacaoMercadoPago;
-
     @Value("${pagamento.mercado.pago.tipo.pagamento}")
     private String tipoPagamentoMercadoPago;
-
     private final PaymentClient client;
 
     @Override
