@@ -27,6 +27,9 @@
         <!-- Configurações do Jacoco para o SonarCloud -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>
+            br/com/fiap/fasteats/config/**,br/com/fiap/fasteats/dataprovider/client/mapper/**,br/com/fiap/fasteats/dataprovider/client/response/**,br/com/fiap/fasteats/entrypoint/controller/mapper/**,br/com/fiap/fasteats/entrypoint/controller/request/**,br/com/fiap/fasteats/entrypoint/controller/response/**,br/com/fiap/fasteats/dataprovider/repository/mapper/**,br/com/fiap/fasteats/dataprovider/repository/exception/**
+        </sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -277,13 +280,14 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>br.com.fiap.fasteats.config.*</exclude>
-                        <exclude>br.com.fiap.fasteats.dataprovider.client.mapper.*</exclude>
-                        <exclude>br.com.fiap.fasteats.dataprovider.client.response.*</exclude>
-                        <exclude>br.com.fiap.fasteats.dataprovider.client.exception.*</exclude>
-                        <exclude>br.com.fiap.fasteats.entrypoint.controller.mapper.*</exclude>
-                        <exclude>br.com.fiap.fasteats.entrypoint.controller.request.*</exclude>
-                        <exclude>br.com.fiap.fasteats.entrypoint.controller.response.*</exclude>
+                        <exclude>br/com/fiap/fasteats/config/**</exclude>
+                        <exclude>br/com/fiap/fasteats/dataprovider/client/mapper/**</exclude>
+                        <exclude>br/com/fiap/fasteats/dataprovider/client/response/**</exclude>
+                        <exclude>br/com/fiap/fasteats/entrypoint/controller/mapper/**</exclude>
+                        <exclude>br/com/fiap/fasteats/entrypoint/controller/request/**</exclude>
+                        <exclude>br/com/fiap/fasteats/entrypoint/controller/response/**</exclude>
+                        <exclude>br/com/fiap/fasteats/dataprovider/repository/mapper/**</exclude>
+                        <exclude>br/com/fiap/fasteats/dataprovider/repository/exception/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -320,7 +324,6 @@
                                         <format>XML</format>
                                     </formats>
                                     <excludes>
-                                        <exclude>br/com/fiap/fasteats/*</exclude>
                                         <exclude>br/com/fiap/fasteats/config/**</exclude>
                                         <exclude>br/com/fiap/fasteats/dataprovider/client/mapper/**</exclude>
                                         <exclude>br/com/fiap/fasteats/dataprovider/client/response/**</exclude>

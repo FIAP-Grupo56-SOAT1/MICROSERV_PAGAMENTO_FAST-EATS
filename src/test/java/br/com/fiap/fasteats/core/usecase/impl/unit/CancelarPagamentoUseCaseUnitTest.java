@@ -20,7 +20,8 @@ import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.MERCAD
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_CANCELADO;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_EM_PROCESSAMENTO;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

@@ -1,17 +1,16 @@
 package br.com.fiap.fasteats.dataprovider.repository.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "FormaPagamento")
 @Table(name = "FORMA_PAGAMENTO")
-@EqualsAndHashCode(of = "id")
 public class FormaPagamentoEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "forma_pagamento_id")

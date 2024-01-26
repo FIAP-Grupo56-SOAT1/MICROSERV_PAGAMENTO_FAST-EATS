@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -288,10 +289,6 @@ public class FormaPagamentoSteps {
     }
 
     private FormaPagamento getFormaPagamento(Long id, String nome, Boolean externo) {
-        FormaPagamento formaPagamento = new FormaPagamento();
-        formaPagamento.setId(id);
-        formaPagamento.setNome(nome);
-        formaPagamento.setExterno(externo);
-        return formaPagamento;
+        return new FormaPagamento(id, nome, externo, true);
     }
 }
