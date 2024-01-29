@@ -55,6 +55,8 @@ Wilian Douglas dos Santos Penaforte - RM348563
 - **`Para facilitar a avaliação do projeto pelos professores já deixamos pronto o arquivo .env com todas as variáveis necessárias.`**
 
 ### Executando com Docker
+Para realização dos testes de forma local foi criado um arquivo docker-compose na raiz de cada repositório de microsserviço, executando o docker-compose serão executados os 3 microsserviços necessários para a aplicação Fast-Eats funcionar totalmente e seus 3 bancos de dados.
+
 Execute o comando abaixo no diretório raiz do projeto para executar a aplicação em conjunto com os demais serviços:
 
 ```bash
