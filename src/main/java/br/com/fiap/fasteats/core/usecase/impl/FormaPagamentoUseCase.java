@@ -1,10 +1,10 @@
 package br.com.fiap.fasteats.core.usecase.impl;
 
+import br.com.fiap.fasteats.core.dataprovider.FormaPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.FormaPagamentoNotFound;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
-import br.com.fiap.fasteats.core.dataprovider.FormaPagamentoOutputPort;
 
 import java.util.List;
 

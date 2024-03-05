@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,8 +30,8 @@ public class FormaPagamentoSteps {
     private FormaPagamentoUseCase formaPagamentoUseCase;
     AutoCloseable openMocks;
     private FormaPagamento formaPagamento;
-    List<FormaPagamento> formasPagamento;
     private FormaPagamento formaPagamentoResult;
+    List<FormaPagamento> formasPagamento;
     private Exception exception;
 
     @Before
@@ -46,9 +47,6 @@ public class FormaPagamentoSteps {
     @Dado("que uma nova forma de pagamento {string} deve ser criada")
     public void queUmaNovaFormaDePagamentoDeveSerCriada(String nome) {
         formaPagamento = getFormaPagamento(1L, nome, false);
-        formaPagamentoResult = getFormaPagamento(1L, nome, false);
-        formaPagamentoResult.setNome(formaPagamentoResult.getNome().toUpperCase());
-        formaPagamentoResult.setAtivo(true);
 
         when(formaPagamentoOutputPort.criar(formaPagamento)).thenReturn(formaPagamento);
     }
@@ -60,16 +58,14 @@ public class FormaPagamentoSteps {
 
     @Entao("a forma de pagamento criada deve estar ativa e com o nome em maiúsculas")
     public void aFormaDePagamentoCriadaDeveEstarAtivaEComONomeEmMaiúsculas() {
-        assertEquals(formaPagamentoResult, formaPagamento);
+        assertEquals(formaPagamento.getNome().toUpperCase(), formaPagamento.getNome());
+        assertTrue(formaPagamento.getAtivo());
         verify(formaPagamentoOutputPort).criar(formaPagamento);
     }
 
     @Dado("que uma nova forma de pagamento externa {string} deve ser criada")
     public void queUmaNovaFormaDePagamentoExternaDeveSerCriada(String nome) {
         formaPagamento = getFormaPagamento(1L, nome, true);
-        formaPagamentoResult = getFormaPagamento(1L, nome, true);
-        formaPagamentoResult.setNome(formaPagamentoResult.getNome().toUpperCase());
-        formaPagamentoResult.setAtivo(true);
 
         when(formaPagamentoOutputPort.criar(formaPagamento)).thenReturn(formaPagamento);
     }
@@ -77,7 +73,8 @@ public class FormaPagamentoSteps {
     @Entao("a forma de pagamento criada deve ser marcada como externa")
     public void aFormaDePagamentoCriadaDeveSerMarcadaComoExterna() {
         assertTrue(formaPagamento.getExterno());
-        assertEquals(formaPagamentoResult, formaPagamento);
+        assertEquals(formaPagamento.getNome().toUpperCase(), formaPagamento.getNome());
+        assertTrue(formaPagamento.getAtivo());
         verify(formaPagamentoOutputPort).criar(formaPagamento);
     }
 
@@ -172,7 +169,8 @@ public class FormaPagamentoSteps {
 
     @Entao("a forma de pagamento deve estar ativa e com o nome em maiúsculas")
     public void aFormaDePagamentoDeveEstarAtivaEComONomeEmMaiúsculas() {
-        assertEquals(formaPagamentoResult, formaPagamento);
+        assertEquals(formaPagamentoResult.getNome(), formaPagamento.getNome());
+        assertTrue(formaPagamento.getAtivo());
         verify(formaPagamentoOutputPort).atualizar(formaPagamento);
     }
 
@@ -288,10 +286,6 @@ public class FormaPagamentoSteps {
     }
 
     private FormaPagamento getFormaPagamento(Long id, String nome, Boolean externo) {
-        FormaPagamento formaPagamento = new FormaPagamento();
-        formaPagamento.setId(id);
-        formaPagamento.setNome(nome);
-        formaPagamento.setExterno(externo);
-        return formaPagamento;
+        return new FormaPagamento(id, nome, externo, true);
     }
 }

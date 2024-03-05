@@ -15,7 +15,6 @@ import br.com.fiap.fasteats.core.validator.RealizarPagamentoValidator;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
-import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

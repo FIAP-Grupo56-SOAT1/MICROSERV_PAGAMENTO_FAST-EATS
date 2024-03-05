@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.MERCADO_PAGO;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
+import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_AGUARDANDO_PAGAMENTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -155,9 +156,7 @@ class MetodoPagamentoUseCaseUnitTest {
     }
 
     private Pedido getPedido(Long pedidoId, Double valor) {
-        Pedido pedido = new Pedido();
-        pedido.setId(pedidoId);
-        pedido.setValor(valor);
+        Pedido pedido = new Pedido(pedidoId, STATUS_PEDIDO_AGUARDANDO_PAGAMENTO, valor, null, null, null);
         return pedido;
     }
 }

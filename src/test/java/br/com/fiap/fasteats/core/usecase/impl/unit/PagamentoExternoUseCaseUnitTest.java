@@ -2,7 +2,10 @@ package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
 import br.com.fiap.fasteats.core.dataprovider.PagamentoExternoOutputPort;
-import br.com.fiap.fasteats.core.domain.model.*;
+import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
+import br.com.fiap.fasteats.core.domain.model.Pagamento;
+import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
+import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.EmitirComprovantePagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
@@ -18,7 +21,8 @@ import org.mockito.MockitoAnnotations;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.MERCADO_PAGO;
 import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Teste Unitário - Pagamento Externo")
@@ -188,13 +192,6 @@ class PagamentoExternoUseCaseUnitTest {
         formaPagamento.setExterno(externo);
         formaPagamento.setAtivo(true);
         return formaPagamento;
-    }
-
-    private Pedido getPedido(Long pedidoId, Double valor) {
-        Pedido pedido = new Pedido();
-        pedido.setId(pedidoId);
-        pedido.setValor(valor);
-        return pedido;
     }
 
     private StatusPagamento getStatusPagamento(Long statusPagamentoId, String nomeStatusPagamento) {

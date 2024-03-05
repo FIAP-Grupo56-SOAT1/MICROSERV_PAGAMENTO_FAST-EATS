@@ -1,0 +1,1505 @@
+{
+	"info": {
+		"_postman_id": "e532bd31-744b-4745-8035-7972fff48f45",
+		"name": "Fast-Eats Pagamento API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27923200"
+	},
+	"item": [
+		{
+			"name": "pagamentos",
+			"item": [
+				{
+					"name": "Listar pagamentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos"
+							]
+						},
+						"description": "Retorna todos pagamentos de pedidos."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<long>\",\n    \"formaPagamento\": {\n      \"id\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"externo\": \"<boolean>\",\n      \"ativo\": \"<boolean>\"\n    },\n    \"statusPagamento\": {\n      \"id\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"ativo\": \"<boolean>\"\n    },\n    \"pedidoId\": \"<long>\",\n    \"idPagamentoExterno\": \"<long>\",\n    \"qrCode\": \"<string>\",\n    \"urlPagamento\": \"<string>\",\n    \"dataHoraCriado\": \"<dateTime>\",\n    \"dataHoraFinalizado\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"formaPagamento\": {\n      \"id\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"externo\": \"<boolean>\",\n      \"ativo\": \"<boolean>\"\n    },\n    \"statusPagamento\": {\n      \"id\": \"<long>\",\n      \"nome\": \"<string>\",\n      \"ativo\": \"<boolean>\"\n    },\n    \"pedidoId\": \"<long>\",\n    \"idPagamentoExterno\": \"<long>\",\n    \"qrCode\": \"<string>\",\n    \"urlPagamento\": \"<string>\",\n    \"dataHoraCriado\": \"<dateTime>\",\n    \"dataHoraFinalizado\": \"<dateTime>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Consultar pagamento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPagamento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPagamento"
+							],
+							"variable": [
+								{
+									"key": "idPagamento",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna o pagamento do pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPagamento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPagamento"
+									],
+									"variable": [
+										{
+											"key": "idPagamento"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Alterar forma de pagamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPagamento/alterar-forma-pagamento?idFormaPagamento=<long>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPagamento",
+								"alterar-forma-pagamento"
+							],
+							"query": [
+								{
+									"key": "idFormaPagamento",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							],
+							"variable": [
+								{
+									"key": "idPagamento",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Altera a forma de pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPagamento/alterar-forma-pagamento?idFormaPagamento=<long>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPagamento",
+										"alterar-forma-pagamento"
+									],
+									"query": [
+										{
+											"key": "idFormaPagamento",
+											"value": "<long>",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "idPagamento"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Realizar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPedido/realizar-pagamento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPedido",
+								"realizar-pagamento"
+							],
+							"variable": [
+								{
+									"key": "idPedido",
+									"value": "2",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Realiza o pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPedido/realizar-pagamento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPedido",
+										"realizar-pagamento"
+									],
+									"variable": [
+										{
+											"key": "idPedido"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cancelar pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPedido/cancelar-pagamento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPedido",
+								"cancelar-pagamento"
+							],
+							"variable": [
+								{
+									"key": "idPedido",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Cancela o pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPedido/cancelar-pagamento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPedido",
+										"cancelar-pagamento"
+									],
+									"variable": [
+										{
+											"key": "idPedido"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "consultar pagamento por id pedido",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPedido/consultar-pagamento-por-id-pedido",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPedido",
+								"consultar-pagamento-por-id-pedido"
+							],
+							"variable": [
+								{
+									"key": "idPedido",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna o pagamento por id pedido"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPedido/consultar-pagamento-por-id-pedido",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPedido",
+										"consultar-pagamento-por-id-pedido"
+									],
+									"variable": [
+										{
+											"key": "idPedido"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Consultar pagamento por id pagamento externo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamentos/:idPagamentoExterno/consultar-por-id-pagamento-externo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamentos",
+								":idPagamentoExterno",
+								"consultar-por-id-pagamento-externo"
+							],
+							"variable": [
+								{
+									"key": "idPagamentoExterno",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna o pagamento por id pagamento externo."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamentos/:idPagamentoExterno/consultar-por-id-pagamento-externo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamentos",
+										":idPagamentoExterno",
+										"consultar-por-id-pagamento-externo"
+									],
+									"variable": [
+										{
+											"key": "idPagamentoExterno"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "pagamento-externo",
+			"item": [
+				{
+					"name": "Cancelar pagamento do Mercado Pago",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/pagamento-externo/mercadopago/:idPagamentoExterno/cancelar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamento-externo",
+								"mercadopago",
+								":idPagamentoExterno",
+								"cancelar"
+							],
+							"variable": [
+								{
+									"key": "idPagamentoExterno",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Cancela um pagamento que a forma de pagamento é Mercado Pago"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/pagamento-externo/mercadopago/:idPagamentoExterno/cancelar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamento-externo",
+										"mercadopago",
+										":idPagamentoExterno",
+										"cancelar"
+									],
+									"variable": [
+										{
+											"key": "idPagamentoExterno"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Webhook Pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"<string>\",\n  \"live_mode\": \"<boolean>\",\n  \"type\": \"<string>\",\n  \"date_created\": \"<string>\",\n  \"user_id\": \"<long>\",\n  \"api_version\": \"<string>\",\n  \"action\": \"<string>\",\n  \"data\": {\n    \"id\": \"<string>\"\n  }\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/pagamento-externo/mercadopago-webhook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamento-externo",
+								"mercadopago-webhook"
+							]
+						},
+						"description": "Webhook para retorno de pagamento"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<string>\",\n  \"live_mode\": \"<boolean>\",\n  \"type\": \"<string>\",\n  \"date_created\": \"<string>\",\n  \"user_id\": \"<long>\",\n  \"api_version\": \"<string>\",\n  \"action\": \"<string>\",\n  \"data\": {\n    \"id\": \"<string>\"\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/pagamento-externo/mercadopago-webhook",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamento-externo",
+										"mercadopago-webhook"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Webhook para simular retorno pagamento externo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagamento-externo/mercadopago-webhook-simulacao?idPagamentoExterno=<long>&statusMercadoPago=APPROVED",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagamento-externo",
+								"mercadopago-webhook-simulacao"
+							],
+							"query": [
+								{
+									"key": "idPagamentoExterno",
+									"value": "<long>",
+									"description": "(Required) "
+								},
+								{
+									"key": "statusMercadoPago",
+									"value": "APPROVED",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Webhook para simular retorno de pagamento externo"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/pagamento-externo/mercadopago-webhook-simulacao?idPagamentoExterno=<long>&statusMercadoPago=APPROVED",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagamento-externo",
+										"mercadopago-webhook-simulacao"
+									],
+									"query": [
+										{
+											"key": "idPagamentoExterno",
+											"value": "<long>",
+											"description": "(Required) "
+										},
+										{
+											"key": "statusMercadoPago",
+											"value": "APPROVED",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "gerar-pagamento",
+			"item": [
+				{
+					"name": "Gerar pagamento de pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/gerar-pagamento/pedido/:idPedido/forma-pagamento/:formaPagamentoId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"gerar-pagamento",
+								"pedido",
+								":idPedido",
+								"forma-pagamento",
+								":formaPagamentoId"
+							],
+							"variable": [
+								{
+									"key": "idPedido",
+									"value": "2",
+									"description": "(Required) "
+								},
+								{
+									"key": "formaPagamentoId",
+									"value": "1",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Gera o pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/gerar-pagamento/pedido/:idPedido/forma-pagamento/:formaPagamentoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"gerar-pagamento",
+										"pedido",
+										":idPedido",
+										"forma-pagamento",
+										":formaPagamentoId"
+									],
+									"variable": [
+										{
+											"key": "idPedido"
+										},
+										{
+											"key": "formaPagamentoId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"formaPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"statusPagamento\": {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  \"pedidoId\": \"<long>\",\n  \"idPagamentoExterno\": \"<long>\",\n  \"qrCode\": \"<string>\",\n  \"urlPagamento\": \"<string>\",\n  \"dataHoraCriado\": \"<dateTime>\",\n  \"dataHoraFinalizado\": \"<dateTime>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "forma-pagamento",
+			"item": [
+				{
+					"name": "Listar forma de pagamento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento"
+							]
+						},
+						"description": "Retorna todas as formas de pagamento."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"externo\": \"<boolean>\",\n    \"ativo\": \"<boolean>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Criar forma de pagamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento"
+							]
+						},
+						"description": "Cria uma nova forma de pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Consultar forma de pagamento por nome",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento/consultar-por-nome/:nome",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento",
+								"consultar-por-nome",
+								":nome"
+							],
+							"variable": [
+								{
+									"key": "nome",
+									"value": "<string>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna a forma de pagamento de pedido por nome."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento/consultar-por-nome/:nome",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento",
+										"consultar-por-nome",
+										":nome"
+									],
+									"variable": [
+										{
+											"key": "nome"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Consultar forma de pagamento por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna a forma de pagamento de pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar forma de pagamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Deleta um meio de pagamento de pedidos."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Atualizar forma de pagamento",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forma-pagamento/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forma-pagamento",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Atualiza a forma de pagamento de um pedido."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/forma-pagamento/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forma-pagamento",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"externo\": \"<boolean>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "status-pagamentos",
+			"item": [
+				{
+					"name": "Listar status pagamento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/status-pagamentos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"status-pagamentos"
+							]
+						},
+						"description": "Retorna o status pagamento."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/status-pagamentos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"status-pagamentos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"nome\": \"<string>\",\n    \"ativo\": \"<boolean>\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Consultar status pagamento por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/status-pagamentos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"status-pagamentos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<long>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna o status pagamento."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/status-pagamentos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"status-pagamentos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Consultar forma de pagamento por nome",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/status-pagamentos/consultar-por-nome/:nome",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"status-pagamentos",
+								"consultar-por-nome",
+								":nome"
+							],
+							"variable": [
+								{
+									"key": "nome",
+									"value": "<string>",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retorna o status pagamento por nome."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/status-pagamentos/consultar-por-nome/:nome",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"status-pagamentos",
+										"consultar-por-nome",
+										":nome"
+									],
+									"variable": [
+										{
+											"key": "nome"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<long>\",\n  \"nome\": \"<string>\",\n  \"ativo\": \"<boolean>\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081"
+		}
+	]
+}

@@ -1,7 +1,5 @@
 package br.com.fiap.fasteats.core.domain.model;
 
-import java.util.Objects;
-
 public class StatusPedido {
     private Long id;
     private String nome;
@@ -28,27 +26,5 @@ public class StatusPedido {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StatusPedido that = (StatusPedido) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome);
-    }
-
-    @Override
-    public String toString() {
-        return "StatusPedido{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
     }
 }

@@ -1,17 +1,17 @@
 package br.com.fiap.fasteats.dataprovider.repository.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "Pagamento")
 @Table(name = "PAGAMENTO")
-@EqualsAndHashCode(of = "id")
 public class PagamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

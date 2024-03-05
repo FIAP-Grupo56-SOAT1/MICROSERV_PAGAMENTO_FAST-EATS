@@ -3,10 +3,7 @@ package br.com.fiap.fasteats.core.usecase.impl.bdd.unit;
 import br.com.fiap.fasteats.core.dataprovider.PedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.PagamentoExternoException;
 import br.com.fiap.fasteats.core.domain.exception.PedidoNotFound;
-import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
-import br.com.fiap.fasteats.core.domain.model.Pagamento;
-import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
-import br.com.fiap.fasteats.core.domain.model.Pedido;
+import br.com.fiap.fasteats.core.domain.model.*;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.MetodoPagamentoUseCase;
@@ -20,9 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -75,7 +74,7 @@ public class MetodoPagamentoSteps {
             pagamento = getPagamento(PAGAMENTO_ID, pedidoId, FORMA_PAGAMENTO_ID, false);
             when(pagamentoInputPort.criar(any(Pagamento.class))).thenReturn(pagamento);
             pagamento = metodoPagamentoUseCase.pix(pedidoId);
-        }catch (Exception e){
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -111,7 +110,7 @@ public class MetodoPagamentoSteps {
             when(mercadoPagoIntegration.enviarSolicitacaoPagamento(pedido.getValor())).thenReturn(pagamentoExterno);
 
             pagamento = metodoPagamentoUseCase.mercadoPago(pedidoId);
-        }catch (Exception e){
+        } catch (Exception e) {
             exception = e;
         }
     }
@@ -126,7 +125,7 @@ public class MetodoPagamentoSteps {
             when(pagamentoInputPort.criar(any(Pagamento.class))).thenReturn(pagamento);
 
             pagamento = metodoPagamentoUseCase.mercadoPago(pedidoId);
-        }catch (Exception e){
+        } catch (Exception e) {
             exception = e;
         }
     }
@@ -150,21 +149,15 @@ public class MetodoPagamentoSteps {
 
     @Entao("deve ser lançada a exceção PagamentoExternoException")
     public void deveSerLancadaExcecaoPagamentoExternoException() {
-       assertTrue(exception instanceof PagamentoExternoException);
+        assertTrue(exception instanceof PagamentoExternoException);
         verify(pedidoOutputPort).consultar(pedido.getId());
         verify(mercadoPagoIntegration).enviarSolicitacaoPagamento(pedido.getValor());
     }
 
     private Pagamento getPagamento(Long pagamentoId, Long pedidoId, Long formaPagamentoId, boolean externo) {
-        Pagamento pagamento = new Pagamento();
-        pagamento.setId(pagamentoId);
-        pagamento.setPedidoId(pedidoId);
-        pagamento.setFormaPagamento(getFormaPagamento(formaPagamentoId, externo ? "MERCADO_PAGO" : "PIX", externo));
-        pagamento.setValor(100.0);
-        pagamento.setIdPagamentoExterno(null);
-        pagamento.setQrCode(null);
-        pagamento.setUrlPagamento(null);
-        return pagamento;
+        return new Pagamento(pagamentoId, 100.00, getFormaPagamento(formaPagamentoId, externo ? "MERCADO_PAGO" : "PIX", externo),
+                new StatusPagamento(), pedidoId, LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(),
+                PAGAMENTO_EXTERNO_ID, "QRCode", "URLPagamento");
     }
 
     private PagamentoExterno getPagamentoExterno(Long pagamentoExternoId, String qrCode, String urlPagamento) {

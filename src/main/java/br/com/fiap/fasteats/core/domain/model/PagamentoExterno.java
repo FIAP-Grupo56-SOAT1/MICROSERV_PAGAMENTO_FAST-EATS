@@ -16,31 +16,11 @@ public class PagamentoExterno {
     public PagamentoExterno(Long id) {
         this.id = id;
     }
-    public PagamentoExterno(Long id, String status) {
-        this.id = id;
-        this.status = status;
-    }
 
     public PagamentoExterno(Long id, String status, boolean simulacaoPagamento) {
         this.id = id;
         this.status = status;
         this.simulacaoPagamento = simulacaoPagamento;
-    }
-
-    public PagamentoExterno(Long id, String status, String mensagem) {
-        this.id = id;
-        this.status = status;
-        this.mensagem = mensagem;
-    }
-
-    public PagamentoExterno(Long id, String status, boolean simulacaoPagamento, String mensagem, String qrCode, String qrCodeBase64, String urlPagamento) {
-        this.id = id;
-        this.status = status;
-        this.simulacaoPagamento = simulacaoPagamento;
-        this.mensagem = mensagem;
-        this.qrCode = qrCode;
-        this.qrCodeBase64 = qrCodeBase64;
-        this.urlPagamento = urlPagamento;
     }
 
     public Long getId() {
