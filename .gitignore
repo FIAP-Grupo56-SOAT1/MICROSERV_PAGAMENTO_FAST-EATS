@@ -29,3 +29,4 @@ replay_pid*
 
 #coverage test files
 /allure-results/
+/api-pagamento.iml
