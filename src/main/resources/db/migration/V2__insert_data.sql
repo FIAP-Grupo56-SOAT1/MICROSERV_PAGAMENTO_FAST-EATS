@@ -6,4 +6,6 @@ INSERT INTO `status_pagamento` (`status_pagamento_id`, `nome`, `ativo`)
 VALUES (1, 'RECUSADO', 1),
        (2, 'CANCELADO', 1),
        (3, 'PAGO', 1),
-       (4, 'EM_PROCESSAMENTO', 1);
+       (4, 'EM_PROCESSAMENTO', 1),
+       (5, 'AGUARDANDO_PAGAMENTO_PEDIDO', 1),
+       (6, 'CONCLUIDO', 1);

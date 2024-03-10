@@ -25,6 +25,22 @@ public class AlterarPagamentoStatusUseCase implements AlterarPagamentoStatusInpu
     }
 
     @Override
+    public Pagamento emProcessamento(Long pagamentoId) {
+        alterarPagamentoStatusValidator.validarEmProcessamento(pagamentoId);
+        Pagamento pagamento = recuperarPagamento(pagamentoId);
+        Pagamento pagamentoAtualizado = atualizarStatusPagamento(pagamento, STATUS_EM_PROCESSAMENTO);
+        return pagamentoOutputPort.salvarPagamento(pagamentoAtualizado);
+    }
+
+    @Override
+    public Pagamento aguardandoPagamentoPedido(Long pagamentoId) {
+        alterarPagamentoStatusValidator.validarAguardandoPagamentoPedido(pagamentoId);
+        Pagamento pagamento = recuperarPagamento(pagamentoId);
+        Pagamento pagamentoAtualizado = atualizarStatusPagamento(pagamento, STATUS_AGUARDANDO_PAGAMENTO_PEDIDO);
+        return pagamentoOutputPort.salvarPagamento(pagamentoAtualizado);
+    }
+
+    @Override
     public Pagamento recusado(Long pagamentoId) {
         alterarPagamentoStatusValidator.validarRecusado(pagamentoId);
         Pagamento pagamento = recuperarPagamento(pagamentoId);
@@ -46,6 +62,14 @@ public class AlterarPagamentoStatusUseCase implements AlterarPagamentoStatusInpu
         alterarPagamentoStatusValidator.validarPago(pagamentoId);
         Pagamento pagamento = recuperarPagamento(pagamentoId);
         Pagamento pagamentoAtualizado = atualizarStatusPagamento(pagamento, STATUS_PAGO);
+        return pagamentoOutputPort.salvarPagamento(pagamentoAtualizado);
+    }
+
+    @Override
+    public Pagamento concluido(Long pagamentoId) {
+        alterarPagamentoStatusValidator.validarConcluido(pagamentoId);
+        Pagamento pagamento = recuperarPagamento(pagamentoId);
+        Pagamento pagamentoAtualizado = atualizarStatusPagamento(pagamento, STATUS_CONCLUIDO);
         pagamentoAtualizado.setDataHoraFinalizado(LocalDateTime.now());
         return pagamentoOutputPort.salvarPagamento(pagamentoAtualizado);
     }

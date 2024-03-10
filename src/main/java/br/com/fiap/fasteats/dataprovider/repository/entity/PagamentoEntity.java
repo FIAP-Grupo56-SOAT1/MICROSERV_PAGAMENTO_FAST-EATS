@@ -49,4 +49,7 @@ public class PagamentoEntity {
 
     @Column(nullable = false, name = "qr_code")
     private String qrCode;
+
+    @Column(nullable = false, name = "tentativas_pagamento")
+    private Long tentativasPagamento;
 }

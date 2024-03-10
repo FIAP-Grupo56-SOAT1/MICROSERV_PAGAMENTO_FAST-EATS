@@ -31,6 +31,7 @@ CREATE TABLE `pagamento`
     `pagamento_externo_id` BIGINT,
     `url_pagamento`        VARCHAR(1000),
     `qr_code`              VARCHAR(2000),
+    `tentativas_pagamento` BIGINT NOT NULL DEFAULT 0,
     `data_criado`          DATETIME DEFAULT CURRENT_TIMESTAMP,
     `data_processamento`   DATETIME,
     `data_finalizado`      DATETIME,

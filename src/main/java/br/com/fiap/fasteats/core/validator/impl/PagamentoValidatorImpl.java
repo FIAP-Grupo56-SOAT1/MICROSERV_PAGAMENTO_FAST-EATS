@@ -26,4 +26,13 @@ public class PagamentoValidatorImpl implements PagamentoValidator {
         if (nomeStatusPagamento.equals(STATUS_PAGO) || nomeStatusPagamento.equals(STATUS_CANCELADO))
             throw new RegraNegocioException("O Pagamento não pode ser alterado, pois está com status " + nomeStatusPagamento);
     }
+
+    @Override
+    public void validarRemoverPagamento(Long pagamentoId) {
+        Pagamento pagamento = pagamentoOutputPort.consultar(pagamentoId).orElseThrow(() -> new RegraNegocioException("Pagamento não encontrado"));
+        String nomeStatusPagamento = statusPagamentoInputPort.consultar(pagamento.getStatusPagamento().getId()).getNome();
+
+        if (nomeStatusPagamento.equals(STATUS_PAGO) || nomeStatusPagamento.equals(STATUS_CANCELADO))
+            throw new RegraNegocioException("O Pagamento não pode ser removido, pois está com status " + nomeStatusPagamento);
+    }
 }
