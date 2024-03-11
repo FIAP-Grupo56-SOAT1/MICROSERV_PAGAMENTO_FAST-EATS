@@ -1,7 +1,6 @@
 package br.com.fiap.fasteats.core.usecase.impl;
 
-import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
-import br.com.fiap.fasteats.core.dataprovider.PagamentoExternoOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.*;
 import br.com.fiap.fasteats.core.domain.exception.StatusPagametoNotFound;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
@@ -17,22 +16,22 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
 
     private final PagamentoInputPort pagamentoInputPort;
     private final PagamentoExternoOutputPort pagamentoExternoOutputPort;
-    private final EmitirComprovantePagamentoInputPort emitirComprovantePagamentoInputPort;
+    private final RealizarPagamentoOutputPort realizarPagamentoOutputPort;
     private final AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort;
-    private final AlterarPedidoStatusOutputPort alterarPedidoStatusOutputPort;
+    private final CancelarPagamentoOutputPort cancelarPagamentoOutputPort;
     private final CancelarPagamentoValidator cancelarPagamentoValidator;
 
     public PagamentoExternoUseCase(PagamentoInputPort pagamentoInputPort,
                                    PagamentoExternoOutputPort pagamentoExternoOutputPort,
-                                   EmitirComprovantePagamentoInputPort emitirComprovantePagamentoInputPort,
+                                   RealizarPagamentoOutputPort realizarPagamentoOutputPort,
                                    AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort,
-                                   AlterarPedidoStatusOutputPort alterarPedidoStatusOutputPort,
+                                   CancelarPagamentoOutputPort cancelarPagamentoOutputPort,
                                    CancelarPagamentoValidator cancelarPagamentoValidator) {
         this.pagamentoInputPort = pagamentoInputPort;
         this.pagamentoExternoOutputPort = pagamentoExternoOutputPort;
-        this.emitirComprovantePagamentoInputPort = emitirComprovantePagamentoInputPort;
+        this.realizarPagamentoOutputPort = realizarPagamentoOutputPort;
         this.alterarPagamentoStatusInputPort = alterarPagamentoStatusInputPort;
-        this.alterarPedidoStatusOutputPort = alterarPedidoStatusOutputPort;
+        this.cancelarPagamentoOutputPort = cancelarPagamentoOutputPort;
         this.cancelarPagamentoValidator = cancelarPagamentoValidator;
     }
 
@@ -46,11 +45,7 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
             if (nomeStatusPagamento.equals(STATUS_CANCELADO))
                 cancelarPagamentoValidator.validarCancelarPagamento(pedidoId);
 
-            if (nomeStatusPagamento.equals(STATUS_PAGO) || nomeStatusPagamento.equals(STATUS_CANCELADO))
-                atualizarStatusPedido(pedidoId, nomeStatusPagamento);
-
-            atualizarStatusPagamento(pedidoId, nomeStatusPagamento);
-            return emitirComprovantePagamento(pedidoId);
+            return atualizarStatusPagamento(pedidoId, pagamentoAtualizadoExterno, nomeStatusPagamento);
         } catch (Exception e) {
             return new Pagamento();
         }
@@ -61,29 +56,12 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
         pagamentoExternoOutputPort.cancelarPagamento(pagamentoExternoId);
     }
 
-    private Pagamento emitirComprovantePagamento(Long pedidoId) {
-        Pagamento pagamento = pagamentoInputPort.consultarPorIdPedido(pedidoId);
-        if (pagamento.getStatusPagamento().getNome().equals(STATUS_PAGO))
-            return emitirComprovantePagamentoInputPort.emitir(pedidoId);
-        return pagamento;
-    }
-
-    private void atualizarStatusPagamento(Long pedidoId, String nomeStatusPagamento) {
-        switch (nomeStatusPagamento) {
-            case STATUS_PAGO -> alterarPagamentoStatusInputPort.pago(pedidoId);
+    private Pagamento atualizarStatusPagamento(Long pedidoId, Pagamento pagamento,String nomeStatusPagamento) {
+        return switch (nomeStatusPagamento) {
+            case STATUS_PAGO -> realizarPagamentoOutputPort.realizarPagamento(pagamento.getId(), pedidoId);
             case STATUS_RECUSADO -> alterarPagamentoStatusInputPort.recusado(pedidoId);
-            case STATUS_CANCELADO -> alterarPagamentoStatusInputPort.cancelado(pedidoId);
+            case STATUS_CANCELADO -> cancelarPagamentoOutputPort.cancelar(pagamento.getId(), pedidoId);
             default -> throw new StatusPagametoNotFound("Status Pagamento não encontrado");
-        }
-    }
-
-    private void atualizarStatusPedido(Long pedidoId, String nomeStatusPagamento) {
-        switch (nomeStatusPagamento) {
-            case STATUS_PAGO -> alterarPedidoStatusOutputPort.pago(pedidoId);
-            case STATUS_CANCELADO -> alterarPedidoStatusOutputPort.cancelado(pedidoId);
-            default -> {
-                break;
-            }
-        }
+        };
     }
 }

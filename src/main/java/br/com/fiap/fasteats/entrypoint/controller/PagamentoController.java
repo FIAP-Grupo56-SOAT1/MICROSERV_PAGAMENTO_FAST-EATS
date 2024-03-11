@@ -2,10 +2,7 @@ package br.com.fiap.fasteats.entrypoint.controller;
 
 
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
-import br.com.fiap.fasteats.core.usecase.AlterarFormaPagamentoInputPort;
-import br.com.fiap.fasteats.core.usecase.CancelarPagamentoInputPort;
-import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
-import br.com.fiap.fasteats.core.usecase.RealizarPagamentoInputPort;
+import br.com.fiap.fasteats.core.usecase.*;
 import br.com.fiap.fasteats.entrypoint.controller.mapper.PagamentoMapper;
 import br.com.fiap.fasteats.entrypoint.controller.response.PagamentoResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,16 +21,17 @@ import java.util.List;
 public class PagamentoController {
     private final PagamentoInputPort pagamentoInputPort;
     private final RealizarPagamentoInputPort realizarPagamentoInputPort;
+    private final ReprocessarPagamentoInputPort reprocessarPagamentoInputPort;
     private final CancelarPagamentoInputPort cancelarPagamentoInputPort;
     private final AlterarFormaPagamentoInputPort alterarFormaPagamentoInputPort;
     private final PagamentoMapper pagamentoMapper;
 
-    @PostMapping("{idPedido}/realizar-pagamento")
+    @PostMapping("{pedidoId}/realizar-pagamento")
     @Operation(summary = "Realizar pagamento", description = "Realiza o pagamento de um pedido.")
-    public ResponseEntity<PagamentoResponse> realizarPagamento(@PathVariable("idPedido") Long idPedido) {
-        Pagamento pagamento = realizarPagamentoInputPort.realizarPagamento(idPedido);
+    public ResponseEntity<PagamentoResponse> realizarPagamento(@PathVariable("pedidoId") Long pedidoId) {
+        Pagamento pagamento = realizarPagamentoInputPort.pagar(pedidoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
-        return new ResponseEntity<>(pagamentoResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -44,44 +42,51 @@ public class PagamentoController {
         return new ResponseEntity<>(pagamentosResponse, HttpStatus.OK);
     }
 
-    @GetMapping("{idPagamento}")
+    @GetMapping("{pagamentoId}")
     @Operation(summary = "Consultar pagamento", description = "Retorna o pagamento do pedido.")
-    public ResponseEntity<PagamentoResponse> consultarPagamento(@PathVariable("idPagamento") Long idPagamento) {
-        Pagamento pagamento = pagamentoInputPort.consultar(idPagamento);
+    public ResponseEntity<PagamentoResponse> consultarPagamento(@PathVariable("pagamentoId") Long pagamentoId) {
+        Pagamento pagamento = pagamentoInputPort.consultar(pagamentoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
-    @GetMapping("{idPagamentoExterno}/consultar-por-id-pagamento-externo")
+    @GetMapping("{pagamentoExternoId}/consultar-por-id-pagamento-externo")
     @Operation(summary = "Consultar pagamento por id pagamento externo", description = "Retorna o pagamento por id pagamento externo.")
-    public ResponseEntity<PagamentoResponse> consultarPorIdPagamentoExterno(@PathVariable("idPagamentoExterno") Long idPagamentoExterno) {
-        Pagamento pagamento = pagamentoInputPort.consultarPorIdPagamentoExterno(idPagamentoExterno);
+    public ResponseEntity<PagamentoResponse> consultarPorIdPagamentoExterno(@PathVariable("pagamentoExternoId") Long pagamentoExternoId) {
+        Pagamento pagamento = pagamentoInputPort.consultarPorIdPagamentoExterno(pagamentoExternoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
-    @GetMapping("{idPedido}/consultar-pagamento-por-id-pedido")
+    @GetMapping("{pedidoId}/consultar-pagamento-por-id-pedido")
     @Operation(summary = "consultar pagamento por id pedido", description = "Retorna o pagamento por id pedido")
-    public ResponseEntity<PagamentoResponse> consultarPagamentoPorIdPedido(@PathVariable("idPedido") Long idPedido) {
-        Pagamento pagamento = pagamentoInputPort.consultarPorIdPedido(idPedido);
+    public ResponseEntity<PagamentoResponse> consultarPagamentoPorIdPedido(@PathVariable("pedidoId") Long pedidoId) {
+        Pagamento pagamento = pagamentoInputPort.consultarPorIdPedido(pedidoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
-    @PutMapping("{idPagamento}/alterar-forma-pagamento")
+    @PutMapping("{pagamentoId}/alterar-forma-pagamento")
     @Operation(summary = "Alterar forma de pagamento", description = "Altera a forma de pagamento de um pedido.")
-    public ResponseEntity<PagamentoResponse> cancelarPagamento(@PathVariable("idPagamento") Long idPagamento,
-                                                               @RequestParam("idFormaPagamento") Long idFormaPagamento) {
-        Pagamento pagamento = alterarFormaPagamentoInputPort.alterarFormaPagamento(idPagamento, idFormaPagamento);
+    public ResponseEntity<PagamentoResponse> cancelarPagamento(@PathVariable("pagamentoId") Long pagamentoId,
+                                                               @RequestParam("formaPagamentoId") Long formaPagamentoId) {
+        Pagamento pagamento = alterarFormaPagamentoInputPort.alterarFormaPagamento(pagamentoId, formaPagamentoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
-    @PostMapping("{idPedido}/cancelar-pagamento")
+    @PostMapping("{pedidoId}/cancelar-pagamento")
     @Operation(summary = "Cancelar pagamento", description = "Cancela o pagamento de um pedido.")
-    public ResponseEntity<PagamentoResponse> cancelarPagamento(@PathVariable("idPedido") Long idPedido) {
-        Pagamento pagamento = cancelarPagamentoInputPort.cancelar(idPedido);
+    public ResponseEntity<PagamentoResponse> cancelarPagamento(@PathVariable("pedidoId") Long pedidoId) {
+        Pagamento pagamento = cancelarPagamentoInputPort.cancelar(pedidoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
+    }
+    
+    @PostMapping("{pedidoId}/reprocessar-pagamento")
+    @Operation(summary = "Reprocessar pagamento", description = "Reprocessa o pagamento de um pedido.")
+    public ResponseEntity<Void> reprocessarPagamento(@PathVariable("pedidoId") Long pedidoId) {
+        reprocessarPagamentoInputPort.reprocessar(pedidoId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

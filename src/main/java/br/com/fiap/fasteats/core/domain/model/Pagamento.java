@@ -14,6 +14,7 @@ public class Pagamento {
     private Long idPagamentoExterno;
     private String qrCode;
     private String urlPagamento;
+    private Long tentativasPagamento;
 
     public Pagamento() {
     }
@@ -28,7 +29,8 @@ public class Pagamento {
                      LocalDateTime dataHoraFinalizado,
                      Long idPagamentoExterno,
                      String qrCode,
-                     String urlPagamento) {
+                     String urlPagamento,
+                     Long tentativasPagamento) {
         this.id = id;
         this.valor = valor;
         this.formaPagamento = formaPagamento;
@@ -40,6 +42,7 @@ public class Pagamento {
         this.idPagamentoExterno = idPagamentoExterno;
         this.qrCode = qrCode;
         this.urlPagamento = urlPagamento;
+        this.tentativasPagamento = tentativasPagamento;
     }
 
     public Long getId() {
@@ -128,5 +131,13 @@ public class Pagamento {
 
     public void setUrlPagamento(String urlPagamento) {
         this.urlPagamento = urlPagamento;
+    }
+
+    public Long getTentativasPagamento() {
+        return tentativasPagamento;
+    }
+
+    public void setTentativasPagamento(Long tentativasPagamento) {
+        this.tentativasPagamento = tentativasPagamento;
     }
 }

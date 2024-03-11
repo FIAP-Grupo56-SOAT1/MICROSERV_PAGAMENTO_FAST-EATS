@@ -1,26 +1,22 @@
 package br.com.fiap.fasteats.core.usecase.impl;
 
-import br.com.fiap.fasteats.core.dataprovider.CancelarPedidoOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
-import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.CancelarPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.validator.CancelarPagamentoValidator;
 
 public class CancelarPagamentoUseCase implements CancelarPagamentoInputPort {
     private final PagamentoInputPort pagamentoInputPort;
-    private final AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort;
-    private final CancelarPedidoOutputPort cancelarPedidoOutputPort;
+    private final CancelarPagamentoOutputPort cancelarPagamentoOutputPort;
     private final CancelarPagamentoValidator cancelarPagamentoValidator;
 
     public CancelarPagamentoUseCase(PagamentoInputPort pagamentoInputPort,
-                                    AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort,
-                                    CancelarPedidoOutputPort cancelarPedidoOutputPort,
+                                    CancelarPagamentoOutputPort cancelarPagamentoOutputPort,
                                     CancelarPagamentoValidator cancelarPagamentoValidator) {
         this.pagamentoInputPort = pagamentoInputPort;
-        this.alterarPagamentoStatusInputPort = alterarPagamentoStatusInputPort;
-        this.cancelarPedidoOutputPort = cancelarPedidoOutputPort;
+        this.cancelarPagamentoOutputPort = cancelarPagamentoOutputPort;
         this.cancelarPagamentoValidator = cancelarPagamentoValidator;
     }
 
@@ -32,7 +28,6 @@ public class CancelarPagamentoUseCase implements CancelarPagamentoInputPort {
             throw new RegraNegocioException("Para cancelar um pagamento externo, utilize o endpoint específico de cada método de pagamento");
 
         cancelarPagamentoValidator.validarCancelarPagamento(pedidoId);
-        cancelarPedidoOutputPort.cancelar(pedidoId);
-        return alterarPagamentoStatusInputPort.cancelado(pagamento.getId());
+        return cancelarPagamentoOutputPort.cancelar(pagamento.getId(), pedidoId);
     }
 }

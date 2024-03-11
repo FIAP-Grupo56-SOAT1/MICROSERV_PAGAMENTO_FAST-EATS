@@ -1,11 +1,11 @@
 package br.com.fiap.fasteats.core.dataprovider;
 
-import br.com.fiap.fasteats.core.domain.model.Pedido;
-
-import java.util.Optional;
-
 public interface AlterarPedidoStatusOutputPort {
-    Optional<Pedido> pago(Long pedidoId);
+    void criado(Long pedidoId);
 
-    Optional<Pedido> cancelado(Long pedidoId);
+    void aguardandoPagamento(Long pedidoId);
+
+    void pago(Long pedidoId);
+
+    void cancelado(Long pedidoId);
 }

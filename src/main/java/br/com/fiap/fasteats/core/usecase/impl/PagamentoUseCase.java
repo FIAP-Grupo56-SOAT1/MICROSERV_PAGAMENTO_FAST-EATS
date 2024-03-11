@@ -38,6 +38,7 @@ public class PagamentoUseCase implements PagamentoInputPort {
         pagamento.setDataHoraCriado(LocalDateTime.now());
         pagamento.setStatusPagamento(statusPagamentoInputPort.consultarPorNome(STATUS_EM_PROCESSAMENTO));
         pagamento.setDataHoraProcessamento(LocalDateTime.now());
+        pagamento.setTentativasPagamento(0L);
         return pagamentoOutputPort.salvarPagamento(pagamento);
     }
 
@@ -55,5 +56,18 @@ public class PagamentoUseCase implements PagamentoInputPort {
     @Override
     public Pagamento consultarPorIdPagamentoExterno(Long pagamentoExternoId) {
         return pagamentoOutputPort.consultarPorIdPagamentoExterno(pagamentoExternoId).orElseThrow(() -> new PagamentoNotFound("Pagamento não encontrado"));
+    }
+
+    @Override
+    public void remover(Long pagamentoId) {
+        pagamentoValidator.validarRemoverPagamento(pagamentoId);
+        pagamentoOutputPort.remover(pagamentoId);
+    }
+
+    @Override
+    public Pagamento adicionarTentativaPagamento(Long pagamentoId) {
+        Pagamento pagamento = consultar(pagamentoId);
+        pagamento.setTentativasPagamento(pagamento.getTentativasPagamento() + 1);
+        return pagamentoOutputPort.salvarPagamento(pagamento);
     }
 }
