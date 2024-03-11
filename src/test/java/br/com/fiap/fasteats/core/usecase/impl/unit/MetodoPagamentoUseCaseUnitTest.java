@@ -3,14 +3,12 @@ package br.com.fiap.fasteats.core.usecase.impl.unit;
 import br.com.fiap.fasteats.core.dataprovider.PedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.PagamentoExternoException;
 import br.com.fiap.fasteats.core.domain.exception.PedidoNotFound;
-import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
-import br.com.fiap.fasteats.core.domain.model.Pagamento;
-import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
-import br.com.fiap.fasteats.core.domain.model.Pedido;
+import br.com.fiap.fasteats.core.domain.model.*;
 import br.com.fiap.fasteats.core.usecase.FormaPagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.MetodoPagamentoUseCase;
 import br.com.fiap.fasteats.dataprovider.client.MercadoPagoIntegration;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,13 +40,18 @@ class MetodoPagamentoUseCaseUnitTest {
     @InjectMocks
     private MetodoPagamentoUseCase metodoPagamentoUseCase;
     private final Long PAGAMENTO_ID = 1L;
-    private final Long PAGAMENTO_EXTERNO_ID = 1234567890L;
     private final Long PEDIDO_ID = 1L;
     private final Long FORMA_PAGAMENTO_ID = 1L;
+    private AutoCloseable openMocks;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        openMocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        openMocks.close();
     }
 
     @Test
@@ -84,7 +87,8 @@ class MetodoPagamentoUseCaseUnitTest {
         // Arrange
         Pagamento pagamento = getPagamento(PAGAMENTO_ID, PEDIDO_ID, FORMA_PAGAMENTO_ID, true);
         Pedido pedido = getPedido(PEDIDO_ID, 100.0);
-        PagamentoExterno pagamentoExterno = getPagamentoExterno(PAGAMENTO_EXTERNO_ID, "QR_CODE", "URL_PAGAMENTO");
+        Long pagamentoExternoId = 1234567890L;
+        PagamentoExterno pagamentoExterno = getPagamentoExterno(pagamentoExternoId, "QR_CODE", "URL_PAGAMENTO");
         pagamento.setIdPagamentoExterno(pagamentoExterno.getId());
         pagamento.setQrCode(pagamentoExterno.getQrCode());
         pagamento.setUrlPagamento(pagamentoExterno.getUrlPagamento());
@@ -156,7 +160,7 @@ class MetodoPagamentoUseCaseUnitTest {
     }
 
     private Pedido getPedido(Long pedidoId, Double valor) {
-        Pedido pedido = new Pedido(pedidoId, STATUS_PEDIDO_AGUARDANDO_PAGAMENTO, valor, null, null, null);
-        return pedido;
+        Cliente cliente = new Cliente("12345678910", "Cliente Teste", "teste", "teste@teste.com");
+        return new Pedido(pedidoId, cliente, STATUS_PEDIDO_AGUARDANDO_PAGAMENTO, valor, null, null, null);
     }
 }

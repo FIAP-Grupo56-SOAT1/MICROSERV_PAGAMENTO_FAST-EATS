@@ -157,7 +157,7 @@ public class MetodoPagamentoSteps {
     private Pagamento getPagamento(Long pagamentoId, Long pedidoId, Long formaPagamentoId, boolean externo) {
         return new Pagamento(pagamentoId, 100.00, getFormaPagamento(formaPagamentoId, externo ? "MERCADO_PAGO" : "PIX", externo),
                 new StatusPagamento(), pedidoId, LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(),
-                PAGAMENTO_EXTERNO_ID, "QRCode", "URLPagamento");
+                PAGAMENTO_EXTERNO_ID, "QRCode", "URLPagamento", 1L);
     }
 
     private PagamentoExterno getPagamentoExterno(Long pagamentoExternoId, String qrCode, String urlPagamento) {

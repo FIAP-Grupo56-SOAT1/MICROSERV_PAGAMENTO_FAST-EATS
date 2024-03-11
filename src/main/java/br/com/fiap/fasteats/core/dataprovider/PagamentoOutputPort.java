@@ -10,9 +10,11 @@ public interface PagamentoOutputPort {
 
     Optional<Pagamento> consultar(Long id);
 
-    Optional<Pagamento> consultarPorPedidoId(long pedidoId);
+    Optional<Pagamento> consultarPorPedidoId(Long pedidoId);
 
     Pagamento salvarPagamento(Pagamento pagamento);
 
     Optional<Pagamento> consultarPorIdPagamentoExterno(Long idPagamentoExterno);
+
+    void remover(Long id);
 }

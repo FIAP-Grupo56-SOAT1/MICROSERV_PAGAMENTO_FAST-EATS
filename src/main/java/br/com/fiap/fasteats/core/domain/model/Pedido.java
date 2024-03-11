@@ -3,6 +3,7 @@ package br.com.fiap.fasteats.core.domain.model;
 
 public class Pedido {
     private Long id;
+    private Cliente cliente;
     private String statusPedido;
     private Double valor;
     private Long idPagamentoExterno;
@@ -12,8 +13,9 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Long id, String statusPedido, Double valor, Long idPagamentoExterno, String qrCode, String urlPagamento) {
+    public Pedido(Long id, Cliente cliente, String statusPedido, Double valor, Long idPagamentoExterno, String qrCode, String urlPagamento) {
         this.id = id;
+        this.cliente = cliente;
         this.statusPedido = statusPedido;
         this.valor = valor;
         this.idPagamentoExterno = idPagamentoExterno;
@@ -27,6 +29,14 @@ public class Pedido {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getStatusPedido() {
