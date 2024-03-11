@@ -1,27 +1,6 @@
 package br.com.fiap.fasteats.dataprovider;
 
-import br.com.fiap.fasteats.core.domain.exception.StatusPedidoNotFound;
-import br.com.fiap.fasteats.core.domain.model.Pedido;
-import br.com.fiap.fasteats.core.domain.model.StatusPedido;
-import br.com.fiap.fasteats.dataprovider.client.PedidoIntegration;
-import br.com.fiap.fasteats.dataprovider.client.mapper.PedidoMapper;
-import br.com.fiap.fasteats.dataprovider.client.mapper.StatusPedidoMapper;
-import br.com.fiap.fasteats.dataprovider.client.response.PedidoResponse;
-import br.com.fiap.fasteats.dataprovider.client.response.StatusPedidoResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-
-import java.util.Optional;
-
-import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_CANCELADO;
-import static br.com.fiap.fasteats.core.constants.StatusPedidoConstants.STATUS_PEDIDO_PAGO;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @DisplayName("Teste Unitário - Alterar Pedido Status Adapter")
 class AlterarPedidoStatusAdapterUnitTest {

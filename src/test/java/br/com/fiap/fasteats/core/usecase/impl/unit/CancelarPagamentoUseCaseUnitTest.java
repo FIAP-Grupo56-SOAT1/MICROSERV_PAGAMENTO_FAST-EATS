@@ -1,12 +1,10 @@
 package br.com.fiap.fasteats.core.usecase.impl.unit;
 
 import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
-import br.com.fiap.fasteats.core.dataprovider.CancelarPedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
-import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.CancelarPagamentoUseCase;
 import br.com.fiap.fasteats.core.validator.CancelarPagamentoValidator;

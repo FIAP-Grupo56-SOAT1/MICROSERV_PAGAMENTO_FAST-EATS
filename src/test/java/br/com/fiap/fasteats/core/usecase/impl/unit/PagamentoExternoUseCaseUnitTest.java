@@ -1,13 +1,13 @@
 package br.com.fiap.fasteats.core.usecase.impl.unit;
 
-import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.dataprovider.PagamentoExternoOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.RealizarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
 import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
 import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
-import br.com.fiap.fasteats.core.usecase.EmitirComprovantePagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.PagamentoExternoUseCase;
 import br.com.fiap.fasteats.core.validator.CancelarPagamentoValidator;
@@ -23,7 +23,8 @@ import static br.com.fiap.fasteats.core.constants.FormaPagamentoConstants.PIX;
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Teste Unitário - Pagamento Externo")
 class PagamentoExternoUseCaseUnitTest {
@@ -32,11 +33,11 @@ class PagamentoExternoUseCaseUnitTest {
     @Mock
     private PagamentoExternoOutputPort pagamentoExternoOutputPort;
     @Mock
-    private EmitirComprovantePagamentoInputPort emitirComprovantePagamentoInputPort;
+    private RealizarPagamentoOutputPort realizarPagamentoOutputPort;
     @Mock
     private AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort;
     @Mock
-    private AlterarPedidoStatusOutputPort alterarPedidoStatusOutputPort;
+    private CancelarPagamentoOutputPort cancelarPagamentoOutputPort;
     @Mock
     private CancelarPagamentoValidator cancelarPagamentoValidator;
     @InjectMocks
@@ -63,8 +64,7 @@ class PagamentoExternoUseCaseUnitTest {
 
         when(pagamentoInputPort.consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno())).thenReturn(pagamento);
         when(pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExterno)).thenReturn(pagamentoAtualizadoExterno);
-        when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
-        when(emitirComprovantePagamentoInputPort.emitir(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
+        when(realizarPagamentoOutputPort.realizarPagamento(pagamento.getId(), pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
 
         // Act
         Pagamento result = pagamentoExternoUseCase.atualizarPagamento(pagamentoExterno);
@@ -73,9 +73,7 @@ class PagamentoExternoUseCaseUnitTest {
         assertEquals(STATUS_PAGO, result.getStatusPagamento().getNome());
         verify(pagamentoInputPort).consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno());
         verify(pagamentoExternoOutputPort).recuperarPagamentoDePagamentoExterno(pagamentoExterno);
-        verify(alterarPedidoStatusOutputPort).pago(pagamento.getPedidoId());
-        verify(alterarPagamentoStatusInputPort).pago(pagamento.getPedidoId());
-        verify(emitirComprovantePagamentoInputPort).emitir(pagamento.getPedidoId());
+        verify(realizarPagamentoOutputPort).realizarPagamento(pagamento.getId(), pagamento.getPedidoId());
     }
 
     @Test
@@ -89,8 +87,7 @@ class PagamentoExternoUseCaseUnitTest {
 
         when(pagamentoInputPort.consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno())).thenReturn(pagamento);
         when(pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExterno)).thenReturn(pagamentoAtualizadoExterno);
-        when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
-        when(emitirComprovantePagamentoInputPort.emitir(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
+        when(alterarPagamentoStatusInputPort.recusado(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
 
         // Act
         Pagamento result = pagamentoExternoUseCase.atualizarPagamento(pagamentoExterno);
@@ -100,7 +97,6 @@ class PagamentoExternoUseCaseUnitTest {
         verify(pagamentoInputPort).consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno());
         verify(pagamentoExternoOutputPort).recuperarPagamentoDePagamentoExterno(pagamentoExterno);
         verify(alterarPagamentoStatusInputPort).recusado(pagamento.getPedidoId());
-        verify(emitirComprovantePagamentoInputPort, times(0)).emitir(pagamento.getPedidoId());
     }
 
     @Test
@@ -114,8 +110,7 @@ class PagamentoExternoUseCaseUnitTest {
 
         when(pagamentoInputPort.consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno())).thenReturn(pagamento);
         when(pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExterno)).thenReturn(pagamentoAtualizadoExterno);
-        when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
-        when(emitirComprovantePagamentoInputPort.emitir(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
+        when(cancelarPagamentoOutputPort.cancelar(pagamento.getId(), pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
 
         // Act
         Pagamento result = pagamentoExternoUseCase.atualizarPagamento(pagamentoExterno);
@@ -125,9 +120,7 @@ class PagamentoExternoUseCaseUnitTest {
         verify(pagamentoInputPort).consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno());
         verify(pagamentoExternoOutputPort).recuperarPagamentoDePagamentoExterno(pagamentoExterno);
         verify(cancelarPagamentoValidator).validarCancelarPagamento(pagamento.getPedidoId());
-        verify(alterarPedidoStatusOutputPort).cancelado(pagamento.getPedidoId());
-        verify(alterarPagamentoStatusInputPort).cancelado(pagamento.getPedidoId());
-        verify(emitirComprovantePagamentoInputPort, times(0)).emitir(pagamento.getPedidoId());
+        verify(cancelarPagamentoOutputPort).cancelar(pagamento.getId(), pagamento.getPedidoId());
     }
 
     @Test
@@ -142,8 +135,6 @@ class PagamentoExternoUseCaseUnitTest {
 
         when(pagamentoInputPort.consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno())).thenReturn(pagamento);
         when(pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExterno)).thenReturn(pagamentoAtualizadoExterno);
-        when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
-        when(emitirComprovantePagamentoInputPort.emitir(pagamento.getPedidoId())).thenReturn(pagamentoAtualizadoExterno);
 
         // Act
         Pagamento result = pagamentoExternoUseCase.atualizarPagamento(pagamentoExterno);
@@ -152,7 +143,6 @@ class PagamentoExternoUseCaseUnitTest {
         assertNull(result.getStatusPagamento());
         verify(pagamentoInputPort).consultarPorIdPagamentoExterno(pagamento.getIdPagamentoExterno());
         verify(pagamentoExternoOutputPort).recuperarPagamentoDePagamentoExterno(pagamentoExterno);
-        verify(emitirComprovantePagamentoInputPort, times(0)).emitir(pagamento.getPedidoId());
     }
 
     @Test
@@ -179,6 +169,7 @@ class PagamentoExternoUseCaseUnitTest {
 
     private PagamentoExterno getPagamentoExterno(Long pagamentoExternoId, String qrCode, String urlPagamento) {
         PagamentoExterno pagamentoExterno = new PagamentoExterno();
+        pagamentoExterno.setMensagem("mensagem");
         pagamentoExterno.setId(pagamentoExternoId);
         pagamentoExterno.setQrCode(qrCode);
         pagamentoExterno.setUrlPagamento(urlPagamento);

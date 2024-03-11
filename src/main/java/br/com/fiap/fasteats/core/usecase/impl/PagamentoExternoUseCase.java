@@ -1,11 +1,12 @@
 package br.com.fiap.fasteats.core.usecase.impl;
 
-import br.com.fiap.fasteats.core.dataprovider.*;
+import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.PagamentoExternoOutputPort;
+import br.com.fiap.fasteats.core.dataprovider.RealizarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.StatusPagametoNotFound;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
 import br.com.fiap.fasteats.core.domain.model.PagamentoExterno;
 import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
-import br.com.fiap.fasteats.core.usecase.EmitirComprovantePagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoExternoInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.validator.CancelarPagamentoValidator;
@@ -40,12 +41,13 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
         try {
             Long pedidoId = pagamentoInputPort.consultarPorIdPagamentoExterno(pagamentoExternoRequisicao.getId()).getPedidoId();
             Pagamento pagamentoAtualizadoExterno = pagamentoExternoOutputPort.recuperarPagamentoDePagamentoExterno(pagamentoExternoRequisicao);
+            Long pagamentoId = pagamentoAtualizadoExterno.getId();
             String nomeStatusPagamento = pagamentoAtualizadoExterno.getStatusPagamento().getNome();
 
             if (nomeStatusPagamento.equals(STATUS_CANCELADO))
                 cancelarPagamentoValidator.validarCancelarPagamento(pedidoId);
 
-            return atualizarStatusPagamento(pedidoId, pagamentoAtualizadoExterno, nomeStatusPagamento);
+            return atualizarStatusPagamento(pedidoId, pagamentoId, nomeStatusPagamento);
         } catch (Exception e) {
             return new Pagamento();
         }
@@ -56,11 +58,11 @@ public class PagamentoExternoUseCase implements PagamentoExternoInputPort {
         pagamentoExternoOutputPort.cancelarPagamento(pagamentoExternoId);
     }
 
-    private Pagamento atualizarStatusPagamento(Long pedidoId, Pagamento pagamento,String nomeStatusPagamento) {
+    private Pagamento atualizarStatusPagamento(Long pedidoId, Long pagamentoId, String nomeStatusPagamento) {
         return switch (nomeStatusPagamento) {
-            case STATUS_PAGO -> realizarPagamentoOutputPort.realizarPagamento(pagamento.getId(), pedidoId);
+            case STATUS_PAGO -> realizarPagamentoOutputPort.realizarPagamento(pagamentoId, pedidoId);
             case STATUS_RECUSADO -> alterarPagamentoStatusInputPort.recusado(pedidoId);
-            case STATUS_CANCELADO -> cancelarPagamentoOutputPort.cancelar(pagamento.getId(), pedidoId);
+            case STATUS_CANCELADO -> cancelarPagamentoOutputPort.cancelar(pagamentoId, pedidoId);
             default -> throw new StatusPagametoNotFound("Status Pagamento não encontrado");
         };
     }
