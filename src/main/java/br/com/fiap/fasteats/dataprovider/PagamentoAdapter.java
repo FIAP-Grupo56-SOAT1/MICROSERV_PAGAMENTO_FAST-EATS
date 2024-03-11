@@ -32,7 +32,7 @@ public class PagamentoAdapter implements PagamentoOutputPort {
     }
 
     @Override
-    public Optional<Pagamento> consultarPorPedidoId(long pedidoId) {
+    public Optional<Pagamento> consultarPorPedidoId(Long pedidoId) {
         return pagamentoRepository.findFirstByPedidoIdOrderByDataHoraCriadoDesc(pedidoId).map(pagamentoEntityMapper::toPagamento);
     }
 
@@ -47,5 +47,10 @@ public class PagamentoAdapter implements PagamentoOutputPort {
     @Override
     public Optional<Pagamento> consultarPorIdPagamentoExterno(Long idPagamentoExterno) {
         return pagamentoRepository.findPagamentoByIdPagamentoExterno(idPagamentoExterno).map(pagamentoEntityMapper::toPagamento);
+    }
+
+    @Override
+    public void remover(Long id) {
+        pagamentoRepository.deleteById(id);
     }
 }

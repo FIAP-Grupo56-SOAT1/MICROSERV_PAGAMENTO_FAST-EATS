@@ -1,5 +1,6 @@
 package br.com.fiap.fasteats.core.usecase.impl.unit;
 
+import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.dataprovider.CancelarPedidoOutputPort;
 import br.com.fiap.fasteats.core.domain.exception.RegraNegocioException;
 import br.com.fiap.fasteats.core.domain.model.FormaPagamento;
@@ -9,6 +10,7 @@ import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.impl.CancelarPagamentoUseCase;
 import br.com.fiap.fasteats.core.validator.CancelarPagamentoValidator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,26 +24,28 @@ import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATU
 import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_EM_PROCESSAMENTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @DisplayName("Teste Unitário - Cancelar Pagamento")
 class CancelarPagamentoUseCaseUnitTest {
     @Mock
     private PagamentoInputPort pagamentoInputPort;
     @Mock
-    private AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort;
-    @Mock
-    private CancelarPedidoOutputPort cancelarPedidoOutputPort;
+    private CancelarPagamentoOutputPort cancelarPagamentoOutputPort;
     @Mock
     private CancelarPagamentoValidator cancelarPagamentoValidator;
     @InjectMocks
     private CancelarPagamentoUseCase cancelarPagamentoUseCase;
-
+    private AutoCloseable openMocks;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        openMocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        openMocks.close();
     }
 
     @Test
@@ -53,7 +57,8 @@ class CancelarPagamentoUseCaseUnitTest {
         pagamentoCancelado.setStatusPagamento(getStatusPagamento(2L, STATUS_CANCELADO));
 
         when(pagamentoInputPort.consultarPorIdPedido(pagamento.getPedidoId())).thenReturn(pagamento);
-        when(alterarPagamentoStatusInputPort.cancelado(pagamento.getId())).thenReturn(pagamentoCancelado);
+        doNothing().when(cancelarPagamentoValidator).validarCancelarPagamento(pagamento.getPedidoId());
+        when(cancelarPagamentoOutputPort.cancelar(pagamento.getId(), pagamento.getPedidoId())).thenReturn(pagamentoCancelado);
 
         // Act
         Pagamento resultado = cancelarPagamentoUseCase.cancelar(pagamento.getPedidoId());
@@ -61,8 +66,7 @@ class CancelarPagamentoUseCaseUnitTest {
         // Assert
         assertEquals(STATUS_CANCELADO, resultado.getStatusPagamento().getNome());
         verify(cancelarPagamentoValidator).validarCancelarPagamento(pagamento.getPedidoId());
-        verify(cancelarPedidoOutputPort).cancelar(pagamento.getPedidoId());
-        verify(alterarPagamentoStatusInputPort).cancelado(pagamento.getId());
+        verify(cancelarPagamentoOutputPort).cancelar(pagamento.getId(), pagamento.getPedidoId());
     }
 
     @Test
