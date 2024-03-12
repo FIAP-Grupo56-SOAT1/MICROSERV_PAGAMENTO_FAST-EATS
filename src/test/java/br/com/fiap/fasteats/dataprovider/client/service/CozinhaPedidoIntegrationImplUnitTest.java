@@ -1,6 +1,13 @@
 package br.com.fiap.fasteats.dataprovider.client.service;
 
-import br.com.fiap.fasteats.dataprovider.client.exception.MicroservicoCozinhaException;
+import br.com.fiap.fasteats.core.domain.model.Pagamento;
+import br.com.fiap.fasteats.core.domain.model.StatusPagamento;
+import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
+import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
+import br.com.fiap.fasteats.dataprovider.client.exception.AwsSQSException;
+import br.com.fiap.fasteats.dataprovider.client.request.CozinhaReceberPedidoRequest;
+import com.google.gson.Gson;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,20 +15,20 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
+import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_PAGO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Teste Unitário - Cozinha Pedido Integration")
 class CozinhaPedidoIntegrationImplUnitTest {
     @Mock
-    private RestTemplate restTemplate;
-    @Value("${URL_COZINHA_PEDIDO_SERVICE}")
-    private String URL_BASE;
-    private final String URI = "/cozinha-pedido";
+    private SqsTemplate sqsTemplate;
+    @Mock
+    private AlterarPagamentoStatusInputPort alterarPagamentoStatusInputPort;
+    @Mock
+    private PagamentoInputPort pagamentoInputPort;
     @InjectMocks
     private CozinhaPedidoIntegrationImpl cozinhaPedidoIntegration;
     AutoCloseable openMocks;
@@ -41,40 +48,57 @@ class CozinhaPedidoIntegrationImplUnitTest {
     @DisplayName("Deve receber um pedido na cozinha")
     void receberPedido() {
         // Arrange
-        String url = String.format("%s%s/%d/receber-pedido", URL_BASE, URI, PEDIDO_ID);
-        ResponseEntity<String> respostaEntity = ResponseEntity.ok("Pedido recebido com sucesso");
-
-        doReturn(respostaEntity).when(restTemplate).postForEntity(eq(url), any(), eq(String.class), eq(PEDIDO_ID));
+        String jsonReq = new Gson().toJson(new CozinhaReceberPedidoRequest(PEDIDO_ID));
 
         // Act
         cozinhaPedidoIntegration.receberPedido(PEDIDO_ID);
 
         // Assert
-        verify(restTemplate).postForEntity(eq(url), any(), eq(String.class), eq(PEDIDO_ID));
+        verify(sqsTemplate).send(any(), eq(jsonReq));
     }
 
     @Test
-    @DisplayName("Deve apresentar erro ao receber um pedido na cozinha, pois o status code é diferente de 200")
-    void receberPedidoErroStatusCode400() {
+    @DisplayName("Deve lançar exceção ao falhar ao receber um pedido na cozinha")
+    void falharAoReceberPedido() {
         // Arrange
-        String url = String.format("%s%s/%d/receber-pedido", URL_BASE, URI, PEDIDO_ID);
-        ResponseEntity<String> respostaEntity = ResponseEntity.badRequest().body("Erro ao receber pedido");
-
-        doReturn(respostaEntity).when(restTemplate).postForEntity(eq(url), any(), eq(String.class), eq(PEDIDO_ID));
+        String jsonReq = new Gson().toJson(new CozinhaReceberPedidoRequest(PEDIDO_ID));
+        doThrow(new RuntimeException("Erro ao tentar receber pedido")).when(sqsTemplate).send(any(), eq(jsonReq));
 
         // Act & Assert
-        assertThrows(MicroservicoCozinhaException.class, () -> cozinhaPedidoIntegration.receberPedido(PEDIDO_ID));
-        verify(restTemplate).postForEntity(eq(url), any(), eq(String.class), eq(PEDIDO_ID));
+        assertThrows(AwsSQSException.class, () -> cozinhaPedidoIntegration.receberPedido(PEDIDO_ID));
     }
 
     @Test
-    @DisplayName("Deve apresentar erro ao receber um pedido na cozinha, pois não foi possível se comunicar com o microserviço")
-    void receberPedidoException() {
+    @DisplayName("Deve tratar a falhar ao receber um pedido na cozinha")
+    void tratarErroReceberPedido() {
         // Arrange
-        String url = String.format("%s%s/%d/receber-pedido", URL_BASE, URI, PEDIDO_ID);
+        String jsonReq = new Gson().toJson(new CozinhaReceberPedidoRequest(PEDIDO_ID));
+        Pagamento pagamento = new Pagamento();
+        pagamento.setId(1L);
+        Pagamento pagamentoPago = new Pagamento();
+        pagamentoPago.setId(1L);
+        pagamentoPago.setStatusPagamento(new StatusPagamento(1L, STATUS_PAGO, true));
+
+        when(pagamentoInputPort.consultarPorIdPedido(PEDIDO_ID)).thenReturn(pagamento);
+        when(alterarPagamentoStatusInputPort.pago(pagamento.getId())).thenReturn(pagamentoPago);
+
+        // Act
+        cozinhaPedidoIntegration.erroReceberPedido(jsonReq);
+
+        // Assert
+        assertEquals(STATUS_PAGO, pagamentoPago.getStatusPagamento().getNome());
+        verify(pagamentoInputPort).consultarPorIdPedido(PEDIDO_ID);
+        verify(alterarPagamentoStatusInputPort).pago(pagamento.getId());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao falhar ao tratar a falha ao receber um pedido na cozinha")
+    void falharAoTratarErroReceberPedido() {
+        // Arrange
+        String jsonReq = new Gson().toJson(new CozinhaReceberPedidoRequest(PEDIDO_ID));
+        doThrow(new RuntimeException("Erro ao tentar tratar erro ao receber pedido")).when(pagamentoInputPort).consultarPorIdPedido(PEDIDO_ID);
 
         // Act & Assert
-        assertThrows(MicroservicoCozinhaException.class, () -> cozinhaPedidoIntegration.receberPedido(PEDIDO_ID));
-        verify(restTemplate).postForEntity(eq(url), any(), eq(String.class), eq(PEDIDO_ID));
+        assertThrows(RuntimeException.class, () -> cozinhaPedidoIntegration.erroReceberPedido(jsonReq));
     }
 }

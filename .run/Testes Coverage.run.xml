@@ -1,19 +1,14 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Testes Coverage" type="JUnit" factoryName="JUnit">
-    <module name="pagamento-api" />
+    <module name="api-pagamento" />
     <extension name="coverage" runner="jacoco">
       <pattern>
-        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.mapper.*" />
+        <option name="PATTERN" value="br.com.fiap.fasteats.config.*" />
         <option name="ENABLED" value="true" />
         <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.request.*" />
-        <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
-      </pattern>
-      <pattern>
-        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.response.*" />
+        <option name="PATTERN" value="br.com.fiap.fasteats.dataprovider.repository.*" />
         <option name="ENABLED" value="true" />
         <option name="INCLUDE" value="false" />
       </pattern>
@@ -38,12 +33,17 @@
         <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="br.com.fiap.fasteats.config.*" />
+        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.mapper.*" />
         <option name="ENABLED" value="true" />
         <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="br.com.fiap.fasteats.dataprovider.repository.*" />
+        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.request.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="br.com.fiap.fasteats.entrypoint.controller.response.*" />
         <option name="ENABLED" value="true" />
         <option name="INCLUDE" value="false" />
       </pattern>
@@ -52,10 +52,10 @@
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="PACKAGE_NAME" value="br.com.fiap.fasteats" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
-    <option name="TEST_OBJECT" value="package" />
+    <option name="TEST_OBJECT" value="directory" />
+    <dir value="$PROJECT_DIR$/src/test/java/br/com/fiap/fasteats" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
