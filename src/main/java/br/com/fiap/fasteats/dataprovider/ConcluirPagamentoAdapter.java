@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_PAGO;
+
 @Component
 @RequiredArgsConstructor
 public class ConcluirPagamentoAdapter implements ConcluirPagamentoOutputPort {
@@ -17,8 +19,10 @@ public class ConcluirPagamentoAdapter implements ConcluirPagamentoOutputPort {
     @Override
     @Transactional
     public Pagamento concluir(Pagamento pagamento) {
-        alterarPagamentoStatusInputPort.pago(pagamento.getId());
+        if (!pagamento.getStatusPagamento().getNome().equals(STATUS_PAGO))
+            alterarPagamentoStatusInputPort.pago(pagamento.getId());
+        Pagamento pagamentoConcluido = alterarPagamentoStatusInputPort.concluido(pagamento.getId());
         emitirComprovantePagamentoInputPort.emitir(pagamento.getPedidoId());
-        return alterarPagamentoStatusInputPort.concluido(pagamento.getId());
+        return pagamentoConcluido;
     }
 }

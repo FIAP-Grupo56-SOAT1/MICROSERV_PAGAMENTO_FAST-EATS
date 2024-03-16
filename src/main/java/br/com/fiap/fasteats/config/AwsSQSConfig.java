@@ -5,13 +5,13 @@ import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 import java.net.URI;
+
 
 @Configuration
 public class AwsSQSConfig {
@@ -28,13 +28,12 @@ public class AwsSQSConfig {
 
     @Bean
     public SqsAsyncClient sqsAsyncClient() {
-        System.out.println("accessKey: " + accessKey);
         return SqsAsyncClient
                 .builder()
                 .endpointOverride(URI.create(endpoint))
                 .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider
-                        .create(AwsSessionCredentials.create(accessKey, secretKey,sessionToken)))
+                        .create(AwsSessionCredentials.create(accessKey, secretKey, sessionToken)))
                 .build();
     }
 
