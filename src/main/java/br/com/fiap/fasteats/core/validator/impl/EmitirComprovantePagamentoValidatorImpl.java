@@ -6,7 +6,7 @@ import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.StatusPagamentoInputPort;
 import br.com.fiap.fasteats.core.validator.EmitirComprovantePagamentoValidator;
 
-import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_PAGO;
+import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATUS_CONCLUIDO;
 
 public class EmitirComprovantePagamentoValidatorImpl implements EmitirComprovantePagamentoValidator {
     private final PagamentoInputPort pagamentoInputPort;
@@ -21,8 +21,8 @@ public class EmitirComprovantePagamentoValidatorImpl implements EmitirComprovant
     @Override
     public void validarEmitirComprovantePagamento(Long pedidoId) {
         Pagamento pagamento = pagamentoInputPort.consultarPorIdPedido(pedidoId);
-        if (!statusPagamentoInputPort.consultar(pagamento.getStatusPagamento().getId()).getNome().equals(STATUS_PAGO)) {
-            throw new RegraNegocioException("O status do pagamento deve ser pago para emissão do comprovante de pagamento");
+        if (!statusPagamentoInputPort.consultar(pagamento.getStatusPagamento().getId()).getNome().equals(STATUS_CONCLUIDO)) {
+            throw new RegraNegocioException("O status do pagamento deve ser" + STATUS_CONCLUIDO + "para emissão do comprovante de pagamento");
         }
     }
 }

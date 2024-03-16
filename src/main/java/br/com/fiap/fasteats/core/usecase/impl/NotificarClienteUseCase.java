@@ -12,7 +12,6 @@ import br.com.fiap.fasteats.core.usecase.NotificarClienteInputPort;
 public class NotificarClienteUseCase implements NotificarClienteInputPort {
     private final NotificarClienteOutputPort notificarClienteOutputPort;
     private final PedidoOutputPort pedidoOutputPort;
-
     private final ContatoPadraoOutputPort contatoPadraoOutputPort;
 
     public NotificarClienteUseCase(NotificarClienteOutputPort notificarClienteOutputPort, PedidoOutputPort pedidoOutputPort, ContatoPadraoOutputPort contatoPadraoOutputPort) {

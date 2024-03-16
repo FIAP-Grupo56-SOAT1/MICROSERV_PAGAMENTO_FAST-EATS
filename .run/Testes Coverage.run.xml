@@ -5,7 +5,6 @@
       <pattern>
         <option name="PATTERN" value="br.com.fiap.fasteats.config.*" />
         <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
         <option name="PATTERN" value="br.com.fiap.fasteats.dataprovider.repository.*" />

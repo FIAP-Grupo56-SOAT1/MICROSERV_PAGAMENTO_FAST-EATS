@@ -7,8 +7,12 @@ import br.com.fiap.fasteats.entrypoint.controller.mapper.PagamentoMapper;
 import br.com.fiap.fasteats.entrypoint.controller.response.PagamentoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,7 @@ public class PagamentoController {
     private final ReprocessarPagamentoInputPort reprocessarPagamentoInputPort;
     private final CancelarPagamentoInputPort cancelarPagamentoInputPort;
     private final AlterarFormaPagamentoInputPort alterarFormaPagamentoInputPort;
+    private final PedidoPagoCozinhaInputPort pedidoPagoCozinhaInputPort;
     private final PagamentoMapper pagamentoMapper;
 
     @PostMapping("{pedidoId}/realizar-pagamento")
@@ -39,7 +44,9 @@ public class PagamentoController {
     public ResponseEntity<List<PagamentoResponse>> listarPagamentos() {
         List<Pagamento> pagamentos = pagamentoInputPort.listar();
         List<PagamentoResponse> pagamentosResponse = pagamentoMapper.toPagamentosResponse(pagamentos);
-        return new ResponseEntity<>(pagamentosResponse, HttpStatus.OK);
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(pagamentosResponse, httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("{pagamentoId}")
@@ -75,18 +82,28 @@ public class PagamentoController {
         return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 
-    @PostMapping("{pedidoId}/cancelar-pagamento")
+    @PostMapping("{pedidoId:\\d+}/cancelar-pagamento")
     @Operation(summary = "Cancelar pagamento", description = "Cancela o pagamento de um pedido.")
-    public ResponseEntity<PagamentoResponse> cancelarPagamento(@PathVariable("pedidoId") Long pedidoId) {
+    public ResponseEntity<PagamentoResponse> cancelarPagamento(@Pattern(regexp = "\\d+") @PathVariable @Valid Long pedidoId) {
         Pagamento pagamento = cancelarPagamentoInputPort.cancelar(pedidoId);
         PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
-        return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(pagamentoResponse, httpHeaders, HttpStatus.OK);
     }
-    
-    @PostMapping("{pedidoId}/reprocessar-pagamento")
+
+    @PostMapping("{pedidoId:\\d+}/reprocessar-pagamento")
     @Operation(summary = "Reprocessar pagamento", description = "Reprocessa o pagamento de um pedido.")
-    public ResponseEntity<Void> reprocessarPagamento(@PathVariable("pedidoId") Long pedidoId) {
+    public ResponseEntity<Void> reprocessarPagamento(@Pattern(regexp = "\\d+") @PathVariable("pedidoId") Long pedidoId) {
         reprocessarPagamentoInputPort.reprocessar(pedidoId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("{pedidoId:\\d+}/enviar-pedido-pago-cozinha")
+    @Operation(summary = "Enviar pedido pago para a cozinha", description = "Envia o pedido pago para a cozinha.")
+    public ResponseEntity<PagamentoResponse> enviarPedidoPagoCozinha(@Pattern(regexp = "\\d+") @PathVariable("pedidoId") Long pedidoId) {
+        Pagamento pagamento = pedidoPagoCozinhaInputPort.enviarPedidoPagoCozinha(pedidoId);
+        PagamentoResponse pagamentoResponse = pagamentoMapper.toPagamentoResponse(pagamento);
+        return new ResponseEntity<>(pagamentoResponse, HttpStatus.OK);
     }
 }
