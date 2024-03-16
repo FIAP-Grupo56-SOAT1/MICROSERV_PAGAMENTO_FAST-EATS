@@ -1,4 +1,4 @@
-package br.com.fiap.fasteats.dataprovider.client.service;
+package br.com.fiap.fasteats.entrypoint.queue;
 
 import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
 import br.com.fiap.fasteats.core.domain.model.Pagamento;
@@ -6,7 +6,6 @@ import br.com.fiap.fasteats.core.usecase.AlterarPagamentoStatusInputPort;
 import br.com.fiap.fasteats.core.usecase.NotificarClienteInputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
 import br.com.fiap.fasteats.core.usecase.ReceberPedidoPagoInputPort;
-import br.com.fiap.fasteats.dataprovider.client.PagamentoPedidoIntegration;
 import br.com.fiap.fasteats.dataprovider.client.response.PagamentoPedidoResponse;
 import com.google.gson.Gson;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -22,7 +21,7 @@ import static br.com.fiap.fasteats.core.constants.StatusPagamentoConstants.STATU
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "spring.cloud.aws.sqs.enabled", havingValue = "true", matchIfMissing = true)
-public class PagamentoPedidoIntegrationImpl implements PagamentoPedidoIntegration {
+public class PagamentoPedidoIntegration {
     @Value("${sqs.queue.pagamento.receber.pedido.pago}")
     private String filaPagamentoReceberPedidoPago;
     @Value("${sqs.queue.pagamento.erro.pagamento-pedido}")
@@ -35,7 +34,6 @@ public class PagamentoPedidoIntegrationImpl implements PagamentoPedidoIntegratio
     private final PagamentoInputPort pagamentoInputPort;
     private final NotificarClienteInputPort notificarClienteInputPort;
 
-    @Override
     @SqsListener("${sqs.queue.pagamento.receber.pedido.pago}")
     public void receber(String mensagem) {
         Long pedidoId = pedidoIdFromJson(mensagem);
@@ -54,7 +52,6 @@ public class PagamentoPedidoIntegrationImpl implements PagamentoPedidoIntegratio
         }
     }
 
-    @Override
     @SqsListener("${sqs.queue.pagamento.erro.pagamento-pedido}")
     public void erroPagamentoPedido(String mensagem) {
         Long pedidoId = pedidoIdFromJson(mensagem);
@@ -71,13 +68,12 @@ public class PagamentoPedidoIntegrationImpl implements PagamentoPedidoIntegratio
         }
     }
 
-    @Override
     @SqsListener("${sqs.queue.pagamento.erro.pedido.cancelar}")
     public void erroCancelarPedido(String mensagem) {
         Long pedidoId = pedidoIdFromJson(mensagem);
         try {
             Pagamento pagamento = pagamentoInputPort.consultarPorIdPedido(pedidoId);
-            if (!pagamento.getStatusPagamento().getNome().equals(STATUS_EM_PROCESSAMENTO)){
+            if (!pagamento.getStatusPagamento().getNome().equals(STATUS_EM_PROCESSAMENTO)) {
                 alterarPagamentoStatusInputPort.emProcessamento(pedidoId);
             }
             String mensagemSucesso = String.format("Pedido %d foi recebido da fila %s com sucesso!", pedidoId, filaPagamentoErroPedidoCancelado);

@@ -1,8 +1,7 @@
-package br.com.fiap.fasteats.dataprovider.client.service;
+package br.com.fiap.fasteats.entrypoint.queue;
 
 import br.com.fiap.fasteats.core.dataprovider.AlterarPedidoStatusOutputPort;
 import br.com.fiap.fasteats.core.usecase.GerarPagamentoInputPort;
-import br.com.fiap.fasteats.dataprovider.client.GerarPagamentoIntegration;
 import br.com.fiap.fasteats.dataprovider.client.response.GerarPagamentoResponse;
 import com.google.gson.Gson;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -16,13 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "spring.cloud.aws.sqs.enabled", havingValue = "true", matchIfMissing = true)
-public class GerarPagamentoIntegrationImpl implements GerarPagamentoIntegration {
+public class GerarPagamentoIntegration {
     @Value("${sqs.queue.pagamento.gerar.pagamento}")
     private String filaPagamentoGerarPagamento;
     private final GerarPagamentoInputPort gerarPagamentoInputPort;
     private final AlterarPedidoStatusOutputPort alterarPedidoStatusOutputPort;
 
-    @Override
     @SqsListener("${sqs.queue.pagamento.gerar.pagamento}")
     public void gerar(String mensagem) {
         GerarPagamentoResponse gerarPagamentoResponse = new Gson().fromJson(mensagem, GerarPagamentoResponse.class);

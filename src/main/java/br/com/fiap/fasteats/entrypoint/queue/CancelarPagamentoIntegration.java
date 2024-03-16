@@ -1,8 +1,7 @@
-package br.com.fiap.fasteats.dataprovider.client.service;
+package br.com.fiap.fasteats.entrypoint.queue;
 
 import br.com.fiap.fasteats.core.dataprovider.CancelarPagamentoOutputPort;
 import br.com.fiap.fasteats.core.usecase.PagamentoInputPort;
-import br.com.fiap.fasteats.dataprovider.client.CancelarPagamentoIntegration;
 import br.com.fiap.fasteats.dataprovider.client.response.CancelarPagamentoResponse;
 import com.google.gson.Gson;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -16,13 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "spring.cloud.aws.sqs.enabled", havingValue = "true", matchIfMissing = true)
-public class CancelarPagamentoIntegrationImpl implements CancelarPagamentoIntegration {
+public class CancelarPagamentoIntegration {
     @Value("${sqs.queue.pagamento.cancelar-pagamento}")
     private String filaPagamentoCancelarPagamento;
     private final PagamentoInputPort pagamentoInputPort;
     private final CancelarPagamentoOutputPort cancelarPagamentoOutputPort;
 
-    @Override
     @SqsListener("${sqs.queue.pagamento.cancelar-pagamento}")
     public void cancelarPagamento(String mensagem) {
         CancelarPagamentoResponse cancelarPagamentoResponse = new Gson().fromJson(mensagem, CancelarPagamentoResponse.class);
