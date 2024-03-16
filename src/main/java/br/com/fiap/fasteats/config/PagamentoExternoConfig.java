@@ -6,7 +6,6 @@ import br.com.fiap.fasteats.core.usecase.impl.PagamentoExternoUseCase;
 import br.com.fiap.fasteats.core.usecase.impl.PagamentoUseCase;
 import br.com.fiap.fasteats.core.validator.impl.CancelarPagamentoValidatorImpl;
 import br.com.fiap.fasteats.dataprovider.CancelarPagamentoAdapter;
-import br.com.fiap.fasteats.dataprovider.ConcluirPagamentoAdapter;
 import br.com.fiap.fasteats.dataprovider.MercadoPagoAdapter;
 import br.com.fiap.fasteats.dataprovider.RealizarPagamentoAdapter;
 import org.springframework.context.annotation.Bean;

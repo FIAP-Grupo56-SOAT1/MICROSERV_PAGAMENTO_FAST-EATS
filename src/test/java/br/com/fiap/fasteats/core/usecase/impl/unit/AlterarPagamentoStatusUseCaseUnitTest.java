@@ -101,7 +101,6 @@ class AlterarPagamentoStatusUseCaseUnitTest {
         StatusPagamento statusPagamentoPago = getStatusPagamento(2L, STATUS_PAGO);
         Pagamento pagamentoPago = getPagamento(PAGAMENTO_ID, PEDIDO_ID);
         pagamentoPago.setStatusPagamento(statusPagamentoPago);
-        pagamentoPago.setDataHoraFinalizado(LocalDateTime.now());
 
         when(pagamentoOutputPort.consultar(pagamento.getId())).thenReturn(Optional.of(pagamento));
         when(statusPagamentoInputPort.consultarPorNome(STATUS_PAGO)).thenReturn(statusPagamentoPago);
@@ -112,11 +111,36 @@ class AlterarPagamentoStatusUseCaseUnitTest {
 
         // Assert
         assertNotNull(resultado);
-        assertNotNull(resultado.getDataHoraFinalizado());
-        assertNotNull(pagamento.getDataHoraFinalizado());
         assertEquals(STATUS_PAGO, pagamento.getStatusPagamento().getNome());
         assertEquals(STATUS_PAGO, resultado.getStatusPagamento().getNome());
         verify(alterarPagamentoStatusValidator).validarPago(pagamento.getId());
+        verify(pagamentoOutputPort).salvarPagamento(pagamento);
+    }
+
+    @Test
+    @DisplayName("Deve alterar o status do pagamento para concluído")
+    void concluido() {
+        // Arrange
+        Pagamento pagamento = getPagamento(PAGAMENTO_ID, PEDIDO_ID);
+        StatusPagamento statusPagamentoConcluido = getStatusPagamento(2L, STATUS_CONCLUIDO);
+        Pagamento pagamentoConcluido = getPagamento(PAGAMENTO_ID, PEDIDO_ID);
+        pagamentoConcluido.setStatusPagamento(statusPagamentoConcluido);
+        pagamentoConcluido.setDataHoraFinalizado(LocalDateTime.now());
+
+        when(pagamentoOutputPort.consultar(pagamento.getId())).thenReturn(Optional.of(pagamento));
+        when(statusPagamentoInputPort.consultarPorNome(STATUS_CONCLUIDO)).thenReturn(statusPagamentoConcluido);
+        when(pagamentoOutputPort.salvarPagamento(pagamento)).thenReturn(pagamentoConcluido);
+
+        // Act
+        Pagamento resultado = alterarPagamentoStatusUseCase.concluido(PAGAMENTO_ID);
+
+        // Assert
+        assertNotNull(resultado);
+        assertNotNull(resultado.getDataHoraFinalizado());
+        assertNotNull(pagamento.getDataHoraFinalizado());
+        assertEquals(STATUS_CONCLUIDO, pagamento.getStatusPagamento().getNome());
+        assertEquals(STATUS_CONCLUIDO, resultado.getStatusPagamento().getNome());
+        verify(alterarPagamentoStatusValidator).validarConcluido(pagamento.getId());
         verify(pagamentoOutputPort).salvarPagamento(pagamento);
     }
 

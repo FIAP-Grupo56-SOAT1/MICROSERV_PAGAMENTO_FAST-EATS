@@ -12,4 +12,4 @@ ENV MERCADO_PAGO_USERID=64946408
 ENV MERCADO_PAGO_TIPO_PAGAMENTO=pix
 ENV URL_PEDIDO_SERVICE=http://localhost:8082
 ENV URL_COZINHA_PEDIDO_SERVICE=http://localhost:8083
-ENTRYPOINT ["java", "-jar","/home/app/target/api-pagamento-1.0.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar","/home/app/target/api-pagamento-2.0.0-SNAPSHOT.jar"]
