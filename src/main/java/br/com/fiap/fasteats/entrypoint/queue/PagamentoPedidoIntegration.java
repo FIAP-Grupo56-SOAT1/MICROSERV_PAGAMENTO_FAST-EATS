@@ -58,6 +58,7 @@ public class PagamentoPedidoIntegration {
         try {
             Long pagamentoId = pagamentoInputPort.consultarPorIdPedido(pedidoId).getId();
             alterarPagamentoStatusInputPort.emProcessamento(pagamentoId);
+            notificarClienteInputPort.erroPagamento(pedidoId);
             String mensagemSucesso = String.format("O pagamento %d retornou para o status %s por erro no pagamento do pedido %d, mensagem da fila %s!",
                     pagamentoId, STATUS_EM_PROCESSAMENTO, pedidoId, filaPagamentoErroPagamentoPedido);
             log.info(mensagemSucesso);
