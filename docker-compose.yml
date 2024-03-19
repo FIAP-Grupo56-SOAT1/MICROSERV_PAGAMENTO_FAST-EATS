@@ -1,21 +1,5 @@
 version: '3.8'
 services:
-  localstack:
-    container_name: localstack
-    image: localstack/localstack
-    healthcheck:
-      test: awslocal sqs list-queues
-      interval: 3s
-      timeout: 10s
-    networks:
-      - fast-eats-app
-    environment:
-      - AWS_DEFAULT_REGION=eu-west-2
-      - HOSTNAME_EXTERNAL=localstack
-      - SERVICES=sqs
-    ports:
-      - "4566:4566"
-
   api-pedido:
     image: fiap56soat1/fasteats-ms-pedido-api:latest
     restart: always
@@ -117,7 +101,6 @@ services:
       - AWS_SQS_QUEUE_PAGAMENTO_GERAR_PAGAMENTO=pagamento-gerar-pagamento
       - AWS_SQS_QUEUE_PAGAMENTO_RECEBER_PEDIDO_PAGO=pagamento-receber-pedido-pago
       - AWS_SQS_QUEUE_NOTIFICAR_CLIENTE=notificar-cliente
-      - AWS_SQS_QUEUE_NOTIFICAR_CLIENTE_PEDIDO_PAGO=notificar-cliente-pedido-pago
       - AWS_SQS_QUEUE_PAGAMENTO_CANCELAR_PAGAMENTO=pagamento-cancelar-pagamento
       - AWS_SQS_QUEUE_PAGAMENTO_ERRO_PAGAMENTO_PEDIDO=pagamento-erro-pagamento-pedido
       - AWS_SQS_QUEUE_PAGAMENTO_ERRO_PEDIDO_CANCELAR=pagamento-erro-pedido-cancelar
@@ -201,6 +184,45 @@ services:
       - fast-eats-app
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+
+  localstack:
+    image: localstack/localstack
+    privileged: true
+    ports:
+      - "4566:4566"
+    networks:
+      - fast-eats-app
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEBUG=0
+      - AWS_DEFAULT_REGION=us-west-2
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    healthcheck:
+      test: awslocal sns list-topics && awslocal sqs list-queues
+      interval: 3s
+      timeout: 10s
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  # Our one-off task with AWS-CLI
+  create-resources:
+    restart: "no"
+    image: amazon/aws-cli:2.11.0
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      - AWS_DEFAULT_REGION=us-west-2
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    networks:
+      - fast-eats-app
+    entrypoint: [ "sh", "-c" ]
+    command: [
+      " aws --endpoint-url=http://localstack:4566 sqs create-queue --queue-name notificar-cliente"
+    ]
 
 networks:
   fast-eats-app:
