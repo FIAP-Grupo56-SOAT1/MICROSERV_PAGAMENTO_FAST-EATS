@@ -1,5 +1,6 @@
 package br.com.fiap.fasteats.entrypoint.controller.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -21,6 +22,8 @@ public class PagamentoResponse {
     private Long idPagamentoExterno;
     private String qrCode;
     private String urlPagamento;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataHoraCriado;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataHoraFinalizado;
 }
