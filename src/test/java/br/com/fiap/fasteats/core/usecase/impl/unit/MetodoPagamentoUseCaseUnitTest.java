@@ -160,7 +160,7 @@ class MetodoPagamentoUseCaseUnitTest {
     }
 
     private Pedido getPedido(Long pedidoId, Double valor) {
-        Cliente cliente = new Cliente("12345678910", "Cliente Teste", "teste", "teste@teste.com");
+        Cliente cliente = new Cliente(1L, "12345678910", "Cliente Teste", "teste", "teste@teste.com", true);
         return new Pedido(pedidoId, cliente, STATUS_PEDIDO_AGUARDANDO_PAGAMENTO, valor, null, null, null);
     }
 }
