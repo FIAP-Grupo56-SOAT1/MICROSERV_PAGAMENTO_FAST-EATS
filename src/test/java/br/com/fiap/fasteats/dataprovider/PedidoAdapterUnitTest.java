@@ -82,7 +82,7 @@ class PedidoAdapterUnitTest {
     private PedidoResponse getPedidoResponse(Long pedidoId, String statusPedido) {
         PedidoResponse pedidoResponse = new PedidoResponse();
         pedidoResponse.setId(pedidoId);
-        pedidoResponse.setCliente(new ClienteResponse("xxxxxxxxx", "PrimeiroNome", "UltimoNome", "teste@teste.com", true));
+        pedidoResponse.setCliente(new ClienteResponse(1L, "xxxxxxxxx", "PrimeiroNome", "UltimoNome", "teste@teste.com", true));
         pedidoResponse.setStatusPedido(statusPedido);
         pedidoResponse.setValor(100.0);
         pedidoResponse.setQrCode("QrCode");
@@ -106,7 +106,7 @@ class PedidoAdapterUnitTest {
         String primeiroNome = clienteResponse.getPrimeiroNome();
         String ultimoNome = clienteResponse.getUltimoNome();
         String email = clienteResponse.getEmail();
-        Cliente cliente = new Cliente( cpf, primeiroNome, ultimoNome, email );
+        Cliente cliente = new Cliente(1L, cpf, primeiroNome, ultimoNome, email, true);
         return cliente;
     }
 }

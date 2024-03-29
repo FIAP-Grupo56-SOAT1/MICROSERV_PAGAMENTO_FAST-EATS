@@ -1,6 +1,6 @@
 package br.com.fiap.fasteats.dataprovider.client.service;
 
-import br.com.fiap.fasteats.core.domain.valueobject.MensagemNotificacao;
+import br.com.fiap.fasteats.core.domain.valueobject.MensagemNotificacaoCliente;
 import br.com.fiap.fasteats.dataprovider.client.NotificarClienteIntegration;
 import br.com.fiap.fasteats.dataprovider.client.exception.AwsSQSException;
 import br.com.fiap.fasteats.dataprovider.client.mapper.NotificarClienteMapper;
@@ -22,9 +22,9 @@ public class NotificarClienteIntegrationImpl implements NotificarClienteIntegrat
     private final NotificarClienteMapper notificarClienteMapper;
 
     @Override
-    public void notificar(MensagemNotificacao mensagemNotificacao) {
+    public void notificar(MensagemNotificacaoCliente mensagemNotificacaoCliente) {
         try {
-            NotificarClienteRequest req = notificarClienteMapper.toMensagemNotificacaoRequest(mensagemNotificacao);
+            NotificarClienteRequest req = notificarClienteMapper.toMensagemNotificacaoRequest(mensagemNotificacaoCliente);
             String mensagem = new Gson().toJson(req);
             sqsTemplate.send(filaNotificarCliente, mensagem);
             log.info("Notificação de cliente enviada para a fila {} com sucesso!", filaNotificarCliente);

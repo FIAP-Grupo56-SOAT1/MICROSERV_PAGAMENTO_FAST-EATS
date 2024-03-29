@@ -1,6 +1,7 @@
 package br.com.fiap.fasteats.dataprovider.client.response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,11 @@ public class PedidoResponse {
     private Long id;
     private ClienteResponse cliente;
     private String statusPedido;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataHoraCriado;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataHoraRecebimento;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataHoraFinalizado;
     private double valor;
     private String qrCode;

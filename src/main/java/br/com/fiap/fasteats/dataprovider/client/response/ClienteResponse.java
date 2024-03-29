@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClienteResponse {
+    private Long id;
     private String cpf;
     private String primeiroNome;
     private String ultimoNome;
